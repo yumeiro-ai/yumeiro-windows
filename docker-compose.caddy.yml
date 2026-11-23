@@ -1,0 +1,21 @@
+# Caddy 自动申请并续期 HTTPS 证书（需要域名解析到本机，且 80/443 可从公网访问）
+services:
+  caddy:
+    image: ${CADDY_IMAGE:-caddy:2-alpine}
+    restart: unless-stopped
+    depends_on:
+      yumeiro:
+        condition: service_healthy
+    environment:
+      YUMEIRO_DOMAIN: ${YUMEIRO_DOMAIN:?请在 .env 设置 YUMEIRO_DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+volumes:
+  caddy_data:
+  caddy_config:

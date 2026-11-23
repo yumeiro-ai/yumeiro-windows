@@ -1,0 +1,104 @@
+name: Apple build check
+
+# 在云端 macOS 上编译 iOS 和 macOS 两个 App，把编译报错整理出来。
+# 只负责“能不能编译”，不签名、不打 ipa。可以在 Actions 页面手动点 Run workflow。
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "clients/apple/**"
+      - "Sources/**"
+      - "project.yml"
+      - ".github/workflows/apple-build.yml"
+
+jobs:
+  build:
+    name: ${{ matrix.target }}
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Yumeiro-iOS
+            destination: "generic/platform=iOS Simulator"
+          - target: Yumeiro-macOS
+            destination: "platform=macOS"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 找到苹果工程目录
+        id: where
+        run: |
+          if [ -f clients/apple/project.yml ]; then echo "dir=clients/apple" >> "$GITHUB_OUTPUT"
+          elif [ -f project.yml ]; then echo "dir=." >> "$GITHUB_OUTPUT"
+          else echo "找不到 project.yml" ; exit 1; fi
+
+      - name: 环境信息
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+
+      - name: 安装 XcodeGen 并生成工程
+        working-directory: ${{ steps.where.outputs.dir }}
+        run: |
+          brew install xcodegen
+          xcodegen generate
+
+      - name: 编译 ${{ matrix.target }}
+        id: build
+        working-directory: ${{ steps.where.outputs.dir }}
+        run: |
+          set -o pipefail
+          LOG="$PWD/build-${{ matrix.target }}.log"
+          set +e
+          xcodebuild build \
+            -project Yumeiro.xcodeproj \
+            -scheme "${{ matrix.target }}" \
+            -destination "${{ matrix.destination }}" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            2>&1 | tee "$LOG"
+          STATUS=${PIPESTATUS[0]}
+          set -e
+          echo "log=$LOG" >> "$GITHUB_OUTPUT"
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: 整理报错
+        working-directory: ${{ steps.where.outputs.dir }}
+        run: |
+          LOG="${{ steps.build.outputs.log }}"
+          {
+            echo "## ${{ matrix.target }}"
+            if [ "${{ steps.build.outputs.status }}" = "0" ]; then
+              echo "✅ 编译通过"
+              echo
+              echo "警告（前 30 条）："
+              echo '```'
+              grep -E "warning:" "$LOG" | sed -E 's#^.*/Sources/#Sources/#' | sort -u | head -30 || true
+              echo '```'
+            else
+              echo "❌ 编译失败（退出码 ${{ steps.build.outputs.status }}）"
+              echo
+              echo "错误（去重后）："
+              echo '```'
+              grep -E "error:" "$LOG" | sed -E 's#^.*/Sources/#Sources/#' | sort -u | head -80 || true
+              echo '```'
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          # 同时在日志里标成红色注解，点开 Actions 页面就能看到
+          grep -E "error:" "$LOG" | sed -E 's#^.*/Sources/#Sources/#' | sort -u | head -50 | while read -r line; do echo "::error::$line"; done || true
+
+      - name: 上传完整日志
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log-${{ matrix.target }}
+          path: |
+            **/build-${{ matrix.target }}.log
+          if-no-files-found: ignore
+
+      - name: 编译失败时让任务变红
+        if: steps.build.outputs.status != '0'
+        run: exit 1

@@ -1,0 +1,16 @@
+# 可选：自建 SenseVoiceSmall 语音识别（普通话 / 粤语 / 英 / 日 / 韩，CPU 即可，免费，数据不出服务器）。
+# 用法：docker compose -f docker-compose.yml -f docker-compose.asr-sensevoice.yml up -d --build asr
+# 首次启动会从 ModelScope 下载模型（约 1GB），需要几分钟；之后看日志出现 “Uvicorn running” 就绪。
+# 在后台“语音识别”里：预设选“自建服务”，接口地址 http://asr:8000/v1，模型名 sensevoice，密钥填 ASR_API_KEY（没设就留空）。
+# 未经本项目实机验证。
+services:
+  asr:
+    build: ./asr-selfhost/sensevoice
+    restart: unless-stopped
+    environment:
+      ASR_API_KEY: ${ASR_API_KEY:-}
+    volumes:
+      - asr_sensevoice_models:/models
+    mem_limit: 2g
+volumes:
+  asr_sensevoice_models:

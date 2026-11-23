@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#12131a"><title>Yumeiro</title>
+<style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 0,#3a2250 0,#12131a 60%);color:#e8e9ee;font:16px/1.7 system-ui,sans-serif}.box{width:min(440px,92vw);background:#1b1d27;border:1px solid #2c2f3d;border-radius:18px;padding:22px 22px 24px;text-align:center}img.m{width:140px;height:140px;object-fit:cover;border-radius:28px;margin:-70px auto 6px;display:block;box-shadow:0 10px 30px #b04bff66,0 0 0 1px #ffffff22}h1{margin:4px 0 6px;font-size:22px}p{color:#9a9eab;margin:4px 0 14px;font-size:14px}input{width:100%;box-sizing:border-box;padding:12px;border-radius:12px;border:1px solid #2c2f3d;background:transparent;color:inherit;font:inherit;text-align:center}button{margin-top:12px;width:100%;padding:12px;border:0;border-radius:12px;background:#e95164;color:#fff;font:inherit}a{color:#e95164}#err{color:#ff8a8a;font-size:13px;min-height:1.4em;margin-top:8px}#status{color:#9a9eab;font-size:13px;min-height:1.4em}</style></head>
+<body><div class="box"><img class="m" src="mascot.png" alt=""><h1>Yumeiro 梦色</h1><p id="hint">输入你自己部署的 Yumeiro 服务器地址（建议 https）。</p>
+<div id="status"></div>
+<input id="url" inputmode="url" autocapitalize="off" autocomplete="off" placeholder="https://example.com"><button id="go">连接</button>
+<p style="margin-top:14px">连接后：聊天 · 🖼 图片理解 · 🔊 语音 · 🖥 <a id="remote" href="#">远程控制我的电脑</a></p><div id="err"></div></div>
+<script>
+// 应用内置的“入口页”：记住服务器地址，之后每次启动先探测一下能不能连上，能连就直接进入；连不上就留在这里，方便改地址。
+const input = document.getElementById('url'), err = document.getElementById('err'), status = document.getElementById('status'), hint = document.getElementById('hint');
+const norm = v => { try { const u = new URL(/^https?:\/\//i.test(v) ? v : 'https://' + v); return u.origin; } catch { return null; } };
+const saved = localStorage.getItem('yumeiro.server');
+async function reachable(server) {
+  try { await fetch(server + '/api/auth/session', { mode: 'no-cors', cache: 'no-store', signal: AbortSignal.timeout(6000) }); return true; } catch { return false; }
+}
+async function enter(server, path) {
+  status.textContent = '正在连接 ' + server + ' …'; err.textContent = '';
+  if (await reachable(server)) { localStorage.setItem('yumeiro.server', server); location.replace(server + (path || '/')); return; }
+  status.textContent = ''; err.textContent = '连不上 ' + server + '。请检查网络、地址和端口，或改成新的地址。';
+}
+function go(path) { const server = norm(input.value.trim()); if (!server) { err.textContent = '地址格式不对，例如 https://example.com'; return; } enter(server, path); }
+document.getElementById('go').onclick = () => go('/'); document.getElementById('remote').onclick = e => { e.preventDefault(); go('/remote'); };
+input.onkeydown = e => { if (e.key === 'Enter') go('/'); };
+if (saved) { input.value = saved; hint.textContent = '上次的服务器：'; if (!location.hash.includes('change')) enter(saved, location.hash === '#remote' ? '/remote' : '/'); }
+</script></body></html>

@@ -1,0 +1,33 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { evaluate, normalizeGuard, vendorOfUrl, usesProxy, VENDORS, TARGETS } from '../envcheck.mjs';
+
+test('环境检测：Gemini 与 DeepSeek——各有端点；Gemini 受地区限制、DeepSeek 不受；DeepSeek 不走出口代理、不按引擎限频', () => {
+  assert.deepEqual(TARGETS.filter(t => t.vendor === 'gemini').map(t => t.id), ['gemini-api', 'gemini-web']);
+  assert.deepEqual(TARGETS.filter(t => t.vendor === 'deepseek').map(t => t.id), ['deepseek-api', 'deepseek-web']);
+  assert.equal(vendorOfUrl('https://generativelanguage.googleapis.com/v1beta/models'), 'gemini');
+  assert.equal(vendorOfUrl('https://gemini.google.com/app'), 'gemini');
+  assert.equal(vendorOfUrl('https://chat.deepseek.com/'), 'deepseek');
+  assert.equal(vendorOfUrl('https://www.google.com/'), null, '只认 Gemini 相关的域名');
+  assert.deepEqual(['claude', 'codex', 'gemini', 'deepseek'].map(usesProxy), [true, true, true, false], 'DeepSeek 是国内服务，直连探测');
+  assert.equal(usesProxy(null), false);
+  const guard = normalizeGuard({});
+  const probesOk = TARGETS.map(t => ({ id: t.id, vendor: t.vendor, label: t.label, reachable: true, status: 200, ms: 120, challenged: false }));
+  const cn = evaluate({ egress: { country: 'CN', ip: '1.2.3.4', hosting: true }, probes: probesOk, guard });
+  assert.equal(cn.vendors.gemini.level, 'danger');
+  assert.equal(cn.vendors.gemini.block, true, 'Gemini 在受限地区同样拒绝');
+  assert.equal(cn.vendors.deepseek.level, 'ok');
+  assert.equal(cn.vendors.deepseek.block, false, '国内出口访问 DeepSeek 没问题');
+  assert.deepEqual(Object.values(cn.vendors).map(v => v.engine), [true, true, false, false]);
+  const us = evaluate({ egress: { country: 'US', ip: '1.1.1.1', hosting: true }, probes: probesOk, guard });
+  assert.equal(us.vendors.gemini.level, 'ok', '数据中心 IP 只对订阅账号型引擎有提醒');
+  assert.equal(us.vendors.claude.level, 'warn');
+  const heavy = evaluate({ egress: { country: 'US' }, probes: probesOk, guard, usage: { deepseek: { lastHour: 9999, concurrent: 99, users24h: 9 }, gemini: { lastHour: 9999, concurrent: 99, users24h: 9 } } });
+  assert.equal(heavy.vendors.deepseek.level, 'ok');
+  assert.equal(heavy.vendors.gemini.level, 'ok', '按小时限频只针对订阅账号型引擎');
+  const down = evaluate({ egress: { country: 'US' }, probes: probesOk.map(p => p.vendor === 'deepseek' ? { ...p, reachable: false, error: 'ENOTFOUND' } : p), guard });
+  assert.equal(down.vendors.deepseek.level, 'warn');
+  assert.match(down.vendors.deepseek.reasons[0].text, /DeepSeek 的所有端点都连不上/);
+  assert.equal(down.vendors.claude.level, 'ok');
+  assert.ok(VENDORS.deepseek.regions === false && VENDORS.gemini.regions === true);
+});

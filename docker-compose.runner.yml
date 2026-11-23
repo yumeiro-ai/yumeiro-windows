@@ -1,0 +1,44 @@
+# 智能体运行器（Claude Code / Codex / Pi）。独立容器、独立网络：
+#  - 只和 yumeiro 应用共用 agentnet，访问不到 PostgreSQL，也不挂载任何应用密钥；
+#  - 以非 root 用户运行，丢弃全部 Linux 能力，限制内存/CPU/进程数；
+#  - 工作区文件放在命名卷 workspaces 中。
+services:
+  runner:
+    build:
+      context: ./runner
+      args:
+        NODE_IMAGE: ${RUNNER_NODE_IMAGE:-node:22-slim}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
+        INSTALL_UV: ${INSTALL_UV:-1}
+        PIP_INDEX_URL: ${PIP_INDEX_URL:-}
+    restart: unless-stopped
+    environment:
+      PORT: 8790
+      WORKSPACES_DIR: /workspaces
+      RUNNER_TOKEN_FILE: /run/secrets/runner_token
+      RUNNER_MAX_CONCURRENT: ${RUNNER_MAX_CONCURRENT:-3}
+      RUNNER_TIMEOUT_SEC: ${RUNNER_TIMEOUT_SEC:-600}
+    secrets: [runner_token]
+    volumes:
+      - workspaces:/workspaces
+    networks: [agentnet]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    read_only: true
+    tmpfs: ["/tmp:size=256m"]
+    pids_limit: ${RUNNER_PIDS_LIMIT:-256}
+    mem_limit: ${RUNNER_MEM_LIMIT:-2g}
+    cpus: ${RUNNER_CPUS:-2}
+  yumeiro:
+    environment:
+      RUNNER_URL: http://runner:8790
+      RUNNER_TOKEN_FILE: /run/secrets/runner_token
+    secrets: [runner_token]
+    networks: [default, agentnet]
+networks:
+  agentnet:
+volumes:
+  workspaces:
+secrets:
+  runner_token:
+    file: ${SECRETS_DIR:-./secrets}/runner_token

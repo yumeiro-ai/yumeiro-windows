@@ -1,0 +1,75 @@
+{
+  "name": "yumeiro-desktop",
+  "productName": "Yumeiro",
+  "version": "0.46.1",
+  "description": "Yumeiro desktop client",
+  "author": "Yumeiro",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win nsis portable --x64"
+  },
+  "devDependencies": {
+    "electron": "^33.4.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.yumeiro.desktop",
+    "afterPack": "build/afterPack.js",
+    "productName": "Yumeiro",
+    "copyright": "Yumeiro",
+    "files": [
+      "main.js",
+      "remote-agent.js",
+      "agent/**",
+      "preload.js",
+      "pet-preload.js",
+      "pet.html",
+      "login.html",
+      "app.html",
+      "app.css",
+      "app-cindy.css",
+      "app.js",
+      "admin.js",
+      "dialog.js",
+      "error.html",
+      "package.json",
+      "build/icon.png",
+      "pet/**"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "artifactName": "Yumeiro-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "Yumeiro-Portable-${version}.${ext}"
+    }
+  }
+}

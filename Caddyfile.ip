@@ -1,0 +1,13 @@
+# 没有域名时用：自签名证书 + IP 访问 HTTPS（证书由 scripts/selfsigned-https.sh 生成）
+# 只启用 HTTP/1.1：浏览器的 WebSocket（桌面端 noVNC）走 HTTP/2 时经反向代理容易失败，HTTP/1.1 最稳。
+{
+  auto_https off
+  servers {
+    protocols h1
+  }
+}
+:443 {
+  tls /certs/cert.pem /certs/key.pem
+  encode zstd gzip
+  reverse_proxy yumeiro:8787
+}

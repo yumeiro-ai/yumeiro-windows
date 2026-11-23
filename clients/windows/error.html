@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>Yumeiro</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<style>
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#12131a;color:#e8e9ee;font:15px/1.7 system-ui,"Microsoft YaHei",sans-serif}
+.box{width:min(560px,92vw);padding:28px;border-radius:18px;background:#1b1d27;border:1px solid #2c2f3d;box-shadow:0 14px 50px #0008}
+h1{font-size:20px;margin:0 0 4px}.sub{color:#9a9db0;margin:0 0 14px;word-break:break-all}
+.hint{background:#242736;border-radius:12px;padding:10px 14px;margin:12px 0;color:#d6d8e6}.hint li{margin:3px 0}
+.code{font:12px/1.6 ui-monospace,Consolas,monospace;color:#9a9db0;word-break:break-all}
+.cert{font:12px/1.7 ui-monospace,Consolas,monospace;background:#12131a;border:1px solid #2c2f3d;border-radius:10px;padding:10px 12px;margin:10px 0;word-break:break-all;color:#cfd2e3}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}button{border:0;border-radius:10px;padding:9px 16px;font:inherit;cursor:pointer;background:#7955c7;color:#fff}
+button.ghost{background:#2c2f3d;color:#e8e9ee}button.warn{background:#b45309}button[hidden]{display:none}
+</style></head>
+<body><div class="box">
+<h1 id="title">连不上服务器</h1>
+<p class="sub" id="url"></p>
+<div class="hint" id="hint"></div>
+<div class="cert" id="cert" hidden></div>
+<div class="code" id="code"></div>
+<div class="row">
+  <button id="retry">重试</button>
+  <button id="trust" class="warn" hidden>信任此证书并继续</button>
+  <button id="ignoreCert" class="ghost" hidden>忽略证书错误并继续（不安全）</button>
+  <button id="useHttp" class="ghost" hidden>改用 http:// 重试</button>
+  <button id="change" class="ghost">更换服务器地址</button>
+</div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const HINTS = {
+  'ERR_CONNECTION_REFUSED': ['服务器在这个地址和端口上没有服务（被拒绝）', '服务有没有启动：Docker 版 docker compose ps；直装版 systemctl status yumeiro', '端口对不对：云服务器的安全组 / 防火墙是否放行了这个端口', '用 https 还是 http：端口 80 / 3005 这类要看你的实际配置'],
+  'ERR_CONNECTION_TIMED_OUT': ['连接超时：多半是被防火墙 / 云服务器安全组挡住了，或 IP / 端口写错', '在浏览器里直接打开同一个地址，看能不能访问', '云服务器要在安全组里放行对应的 TCP 端口'],
+  'ERR_NAME_NOT_RESOLVED': ['域名解析不到', '检查域名拼写、DNS 是否已经指向服务器；刚改过 DNS 的话等几分钟'],
+  'ERR_UNSAFE_PORT': ['这个端口被浏览器内核列为不安全端口（如 1、7、22、25、6000 等），不能访问', '请把服务换到别的端口（比如 8787 / 3005 / 9000），再用新端口连接'],
+  'ERR_INTERNET_DISCONNECTED': ['这台电脑当前没有网络', '检查网络连接后点“重试”'],
+  'ERR_SSL_PROTOCOL_ERROR': ['对方不是 HTTPS 服务（或证书协议不匹配）', '如果你的服务器只开了 HTTP（比如 http://IP:8787），点下面的“改用 http:// 重试”'],
+  'ERR_CONNECTION_RESET': ['连接被对方重置', '常见于端口协议不对（把 http 端口当 https 用，或反过来），或前面的反向代理没配好'],
+  'ERR_ADDRESS_UNREACHABLE': ['网络不可达', '检查这台电脑能否访问该 IP；服务器是否在另一个内网']
+};
+(async () => {
+  const e = await window.yumeiroApp.lastError();
+  const desc = (e && e.desc) || 'ERR_FAILED';
+  $('url').textContent = (e && e.url) || '';
+  $('code').textContent = '错误：' + desc + (e ? '（' + e.code + '）' : '');
+  const isCert = Boolean(e && e.cert) || /^ERR_CERT/.test(desc);
+  if (isCert) {
+    $('title').textContent = '服务器的证书浏览器不信任';
+    const list = ['这通常是因为服务器用的是<b>自签名证书</b>（没有域名时常见），连接本身仍是加密的，只是证书不是公共机构签发的。', '确认地址确实是你自己的服务器后，可以只信任<b>这一张证书</b>：下面的指纹要和服务器上的一致（服务器上执行 <code>openssl x509 -in 证书文件 -noout -fingerprint -sha256</code> 核对）。证书换了会重新提示。', '想彻底去掉这个提示：给服务器配正式证书（域名 + Let’s Encrypt / 宝塔一键申请）。'];
+    $('hint').innerHTML = '<ul>' + list.map(x => '<li>' + x + '</li>').join('') + '</ul>';
+    if (e && e.cert) {
+      $('cert').hidden = false;
+      $('cert').textContent = '主题：' + (e.cert.subject || '') + '\n颁发者：' + (e.cert.issuer || '') + '\n有效期至：' + (e.cert.expiry || '') + '\nSHA-256 指纹：' + e.cert.hex + '\n问题：' + e.cert.error;
+      $('trust').hidden = false;
+    }
+    $('ignoreCert').hidden = false;
+  } else {
+    const h = HINTS[desc.replace(/^net::/, '')] || ['没有连上服务器', '检查地址是否正确、服务器是否在运行，以及防火墙 / 安全组是否放行'];
+    $('title').textContent = h[0];
+    $('hint').innerHTML = '<ul>' + h.slice(1).map(x => '<li>' + x + '</li>').join('') + '</ul>';
+    if (/^https:/.test((e && e.url) || '') && /SSL_PROTOCOL|CONNECTION_RESET/.test(desc)) $('useHttp').hidden = false;
+  }
+  $('retry').onclick = () => window.yumeiroApp.retry();
+  $('trust').onclick = () => window.yumeiroApp.trustCert();
+  $('ignoreCert').onclick = () => window.yumeiroApp.setIgnoreCert(true);
+  $('useHttp').onclick = () => window.yumeiroApp.useScheme('http');
+  $('change').onclick = () => window.yumeiroApp.changeServer();
+})();
+</script></body></html>

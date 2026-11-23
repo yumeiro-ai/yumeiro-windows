@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700" width="600" height="700" role="img" aria-label="Yumeiro mascot Yume"><defs>
+  <linearGradient id="bgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0c0a14"/><stop offset=".6" stop-color="#07060b"/><stop offset="1" stop-color="#0d0509"/></linearGradient>
+  <linearGradient id="stripe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e5364f" stop-opacity=".95"/><stop offset="1" stop-color="#6a0f1c" stop-opacity=".75"/></linearGradient>
+  <linearGradient id="hairG" x1="0" y1="0" x2="1" y2="0.2"><stop offset="0" stop-color="#2f6bff"/><stop offset=".22" stop-color="#1a2a8a"/><stop offset=".5" stop-color="#0d1033"/><stop offset=".86" stop-color="#0b0c24"/><stop offset="1" stop-color="#8f2036"/></linearGradient>
+  <linearGradient id="hairFront" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b2370"/><stop offset=".45" stop-color="#0b0d2b"/><stop offset="1" stop-color="#070818"/></linearGradient>
+  <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9d2ee"/><stop offset=".45" stop-color="#f6ddd6"/><stop offset="1" stop-color="#f2b9b0"/></linearGradient>
+  <linearGradient id="neck" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c79aa6"/><stop offset="1" stop-color="#eac4bf"/></linearGradient>
+  <radialGradient id="iris" cx=".5" cy=".3" r=".8"><stop offset="0" stop-color="#ffe9a8"/><stop offset=".35" stop-color="#ffab4a"/><stop offset=".75" stop-color="#d9552e"/><stop offset="1" stop-color="#6e1d1d"/></radialGradient>
+  <linearGradient id="sweater" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5f86ff"/><stop offset=".3" stop-color="#b9bfdc"/><stop offset=".7" stop-color="#d6d0dd"/><stop offset="1" stop-color="#ff7a86"/></linearGradient>
+  <linearGradient id="sweaterShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a0a1c" stop-opacity="0"/><stop offset="1" stop-color="#0a0a1c" stop-opacity=".55"/></linearGradient>
+  <linearGradient id="skirt" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1f56e8"/><stop offset=".6" stop-color="#173aa8"/><stop offset="1" stop-color="#b8344a"/></linearGradient>
+  <radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#e95164" stop-opacity=".42"/><stop offset="1" stop-color="#e95164" stop-opacity="0"/></radialGradient>
+  <radialGradient id="catEye" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#fff2a8"/><stop offset=".5" stop-color="#ffb02e"/><stop offset="1" stop-color="#e5362f"/></radialGradient>
+  <filter id="rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035 .05" numOctaves="3" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="16"/></filter>
+  <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 .25  0 0 0 0 .3  0 0 0 1.6 -.72"/></filter>
+  <filter id="blur6"><feGaussianBlur stdDeviation="6"/></filter><filter id="blur2"><feGaussianBlur stdDeviation="1.6"/></filter><filter id="blur14"><feGaussianBlur stdDeviation="14"/></filter>
+  <clipPath id="card"><rect width="600" height="700" rx="34"/></clipPath>
+</defs><g clip-path="url(#card)">
+  <rect width="600" height="700" fill="url(#bgG)"/>
+  <ellipse cx="350" cy="250" rx="250" ry="230" fill="url(#glow)"/>
+  <g filter="url(#rough)">
+    <polygon points="60,-10 150,-10 20,470 -80,470" fill="url(#stripe)" opacity=".92"/>
+    <polygon points="360,-10 430,-10 290,360 220,360" fill="url(#stripe)" opacity=".8"/>
+    <polygon points="468,-10 492,-10 392,300 368,300" fill="url(#stripe)" opacity=".7"/>
+  </g>
+  <g opacity=".5" stroke="#ff4a5e" stroke-width=".7" fill="none"><path d="M0 120 L600 40 M0 220 L600 120 M0 330 L600 230 M120 0 L-40 700 M240 0 L80 700 M500 0 L380 700"/></g>
+  <rect width="600" height="700" filter="url(#grain)" opacity=".4"/>
+  <ellipse cx="90" cy="690" rx="190" ry="120" fill="#e5364f" opacity=".55" filter="url(#blur14)"/>
+  <ellipse cx="500" cy="700" rx="140" ry="70" fill="#9c1f33" opacity=".45" filter="url(#blur14)"/>
+  <circle cx="120" cy="520" r="2" fill="#ffb27a" opacity="0.9"/><circle cx="70" cy="560" r="1.4" fill="#ffb27a" opacity="0.8"/><circle cx="500" cy="560" r="1.8" fill="#ffb27a" opacity="0.8"/><circle cx="540" cy="420" r="1.2" fill="#ffb27a" opacity="0.7"/><circle cx="452" cy="640" r="2.2" fill="#ffb27a" opacity="0.85"/><circle cx="30" cy="380" r="1.5" fill="#ffb27a" opacity="0.7"/>
+  <path d="M520 520 L526 546" stroke="#ffb27a" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+  <!-- 飘动的后发 -->
+  <path d="M342 74 C268 66 212 108 188 158 C150 166 108 186 80 214 C118 204 150 204 176 212 C130 230 98 262 76 304 C122 272 160 256 202 258 C190 302 170 334 156 366 C200 334 236 304 258 272 L302 304 L424 304 C446 244 450 190 424 140 C408 100 374 78 342 74 Z" fill="url(#hairG)"/>
+  <path d="M96 214 C130 212 156 218 176 232 M92 296 C130 272 166 262 204 268 M170 350 C190 330 206 312 216 296" stroke="#5f8bff" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".75"/>
+  <path d="M130 188 C158 178 180 176 198 184 M104 240 C132 236 150 240 166 250" stroke="#b9c8ff" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".55"/>
+  <path d="M420 150 C440 190 440 240 424 296" stroke="#ff4d63" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+  <!-- 颈部与耳机 -->
+  <path d="M322 296 L376 296 L384 352 C360 366 338 366 318 352 Z" fill="url(#neck)"/>
+  <!-- 身体：宽大的毛衣 -->
+  <path d="M262 334 C214 348 170 392 158 470 C148 540 152 600 164 600 L478 600 C486 566 480 480 450 408 C430 360 398 340 360 334 C346 346 296 346 262 334 Z" fill="url(#sweater)"/>
+  <path d="M262 334 C214 348 170 392 158 470 C148 540 152 600 164 600 L478 600 C486 566 480 480 450 408 C430 360 398 340 360 334 C346 346 296 346 262 334 Z" fill="url(#sweaterShade)"/>
+  <path d="M262 334 C296 346 346 346 360 334 C352 354 330 366 310 364 C290 362 270 352 262 334 Z" fill="#8f94b8" opacity=".7"/>
+  <path d="M452 410 C482 480 488 540 478 600" stroke="#ff6676" stroke-width="3.4" fill="none" stroke-linecap="round" opacity=".85"/>
+  <path d="M300 344 C306 394 404 396 412 350" stroke="#16172c" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <path d="M304 348 C310 388 402 390 408 354" stroke="#4a4f88" stroke-width="1.8" fill="none" stroke-linecap="round" opacity=".8"/>
+  <g transform="translate(406 356) rotate(-12)"><rect x="-10" y="-4" width="20" height="30" rx="9" fill="#1b1c34"/><rect x="-6" y="1" width="12" height="20" rx="6" fill="none" stroke="#ff7b9c" stroke-width="2"/></g>
+  <!-- 垂下的袖子（手插在口袋里）-->
+  <path d="M248 372 C214 410 196 480 204 560 C206 580 214 590 226 596 L330 590 C316 590 322 530 344 470 C326 430 290 396 248 372 Z" fill="#aab4dc"/>
+  <path d="M248 372 C214 410 196 480 204 560 C206 580 214 590 226 596 L330 590 C316 590 322 530 344 470 C326 430 290 396 248 372 Z" fill="url(#sweaterShade)" opacity=".55"/>
+  <path d="M236 400 C262 420 290 450 312 486 M214 480 C250 500 290 520 318 540 M212 556 C246 574 282 584 316 586" stroke="#8088b0" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+  <path d="M206 560 C208 580 214 590 226 596" stroke="#6ea0ff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+  <path d="M164 584 C250 608 380 610 478 590 L478 562 C380 580 250 578 164 556 Z" fill="#c9cde4"/><path d="M164 584 C250 608 380 610 478 590" stroke="#8c92b8" stroke-width="2" fill="none"/>
+  <path d="M176 562 L180 586 M200 566 L204 592 M224 570 L228 596 M248 572 L252 598 M272 574 L276 600 M296 575 L300 601 M320 575 L324 601 M344 575 L348 601 M368 574 L372 600 M392 573 L396 599 M416 571 L420 597 M440 569 L444 594 M464 566 L468 591" stroke="#9aa0c4" stroke-width="1.6" opacity=".75"/>
+  <!-- 蓝色百褶裙 -->
+  <path d="M184 592 C250 622 390 626 470 598 C482 640 488 684 492 706 L172 706 C174 660 178 626 184 592 Z" fill="url(#skirt)"/>
+  <path d="M214 620 L206 706 M262 630 L256 706 M312 634 L310 706 M362 634 L366 706 M412 626 L424 706" stroke="#0f2570" stroke-width="2.4" opacity=".7"/>
+  <!-- 脸 -->
+  <path d="M300 152 C284 178 284 216 292 250 C300 284 322 308 352 310 C382 310 404 286 414 250 C422 214 420 176 402 150 C382 124 324 126 300 152 Z" fill="url(#skin)"/>
+  <path d="M414 250 C422 214 420 176 402 150" stroke="#ff7580" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
+  <path d="M292 250 C300 284 322 308 352 310 C330 296 316 272 312 240 Z" fill="#8b6fb3" opacity=".25"/>
+  <ellipse cx="334" cy="270" rx="17" ry="9" fill="#ff6f88" opacity=".35"/>
+  <!-- 耳朵与樱花耳坠 -->
+  <path d="M296 220 C280 218 276 244 290 258 C296 262 302 258 304 250 Z" fill="#e9bfc3"/>
+  <path d="M284 232 C288 238 292 246 292 252" stroke="#b98e9a" stroke-width="1.6" fill="none"/>
+  <path d="M291 262 L289 286" stroke="#cfd3ff" stroke-width="1.2"/>
+  <g transform="translate(289 294) scale(1.15)"><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(0)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(72)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(144)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(216)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(288)"/><circle r="1.8" fill="#ffd36b"/></g>
+  <!-- 眼睛（近处的大、远处的小），半垂的眼帘带出冷淡的神情 -->
+  <g transform="translate(338 238) rotate(6)">
+    <ellipse cx="0" cy="2" rx="20" ry="16" fill="#fdf2ee"/>
+    <ellipse cx="2" cy="3" rx="14.5" ry="15" fill="url(#iris)"/>
+    <ellipse cx="3" cy="4" rx="6" ry="8.5" fill="#2a0f12"/>
+    <circle cx="-3" cy="-2" r="4.4" fill="#fff"/><circle cx="9" cy="10" r="2.2" fill="#fff" opacity=".9"/>
+    <path d="M-23 3 C-20 -10 -6 -17 8 -16 C17 -15 23 -10 25 -3 C14 -10 0 -11 -9 -7 C-15 -4 -20 -1 -23 3 Z" fill="#12091c"/>
+    <path d="M-22 4 L-29 8" stroke="#12091c" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M-12 18 C-4 21 8 21 15 17" stroke="#c78e96" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".7"/>
+  </g>
+  <g transform="translate(398 246) rotate(4)">
+    <ellipse cx="0" cy="2" rx="13" ry="12" fill="#fdf2ee"/>
+    <ellipse cx="1" cy="3" rx="9.5" ry="11" fill="url(#iris)"/>
+    <ellipse cx="1.5" cy="4" rx="4" ry="6.5" fill="#2a0f12"/>
+    <circle cx="-2" cy="0" r="3" fill="#fff"/><circle cx="6" cy="8" r="1.5" fill="#fff" opacity=".9"/>
+    <path d="M-15 2 C-12 -8 -3 -13 6 -12 C12 -11 16 -7 17 -2 C9 -7 0 -8 -6 -5 C-10 -3 -13 -1 -15 2 Z" fill="#12091c"/>
+  </g>
+  <path d="M318 214 C328 208 344 208 356 214 M384 222 C392 218 402 218 410 222" stroke="#1a1030" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M374 264 C377 268 381 268 383 265" stroke="#c98d94" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M360 289 C368 292 378 292 386 288" stroke="#b5606c" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <!-- 刘海与散落的发丝 -->
+  <path d="M294 178 C298 124 356 98 402 128 C418 144 424 172 420 204 C410 172 394 154 372 150 C372 178 356 198 338 208 C336 188 330 174 318 166 C314 196 308 224 302 252 C288 226 286 200 294 178 Z" fill="url(#hairFront)"/>
+  <path d="M404 140 C424 182 424 242 410 292 C404 252 400 208 402 172 Z" fill="url(#hairFront)"/>
+  <path d="M298 196 C286 232 290 274 308 306 C300 272 302 232 312 204 Z" fill="url(#hairFront)"/>
+  <path d="M320 112 C346 100 380 104 400 126" stroke="#6f93ff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".8"/>
+  <path d="M410 150 C424 178 426 214 420 244" stroke="#ff6a7c" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".9"/>
+  <path d="M300 170 C292 188 290 206 292 222 M338 206 C334 192 328 180 318 170" stroke="#4568e0" stroke-width="1.4" fill="none" opacity=".7"/>
+  <path d="M200 150 C240 130 262 120 296 118 M150 190 C190 170 220 164 252 164" stroke="#5a86ff" stroke-width="1.6" fill="none" opacity=".6" stroke-linecap="round"/>
+  <!-- 红色 X 发夹 -->
+  <g transform="translate(324 150) rotate(-12)"><rect x="-13" y="-3" width="26" height="6" rx="3" fill="#e5364f"/><path d="M-6 -7 L6 7 M6 -7 L-6 7" stroke="#ffd0d6" stroke-width="2" stroke-linecap="round"/></g>
+  <!-- 肩上的黑猫 -->
+  <g>
+    <path d="M176 366 C150 360 138 336 150 314 C158 330 170 340 186 344" stroke="#06060b" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M150 314 C148 322 150 330 154 336" stroke="#4d7bff" stroke-width="1.6" fill="none" opacity=".8"/>
+    <ellipse cx="216" cy="352" rx="44" ry="30" fill="#07070d"/>
+    <path d="M176 338 C190 322 220 318 250 332" stroke="#4d7bff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".85"/>
+    <path d="M250 340 C258 350 256 362 246 372" stroke="#ff4d63" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
+    <path d="M196 290 L190 254 L224 276 Z" fill="#07070d"/><path d="M244 280 L262 248 L266 290 Z" fill="#07070d"/>
+    <path d="M198 280 L196 264 L212 276 Z" fill="#7a2638"/><path d="M252 280 L260 262 L260 282 Z" fill="#7a2638"/>
+    <ellipse cx="228" cy="306" rx="36" ry="28" fill="#08080e"/>
+    <path d="M196 292 C204 280 220 274 238 276" stroke="#4d7bff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
+    <path d="M254 294 C260 304 258 316 250 324" stroke="#ff4d63" stroke-width="1.8" fill="none" stroke-linecap="round" opacity=".85"/>
+    <ellipse cx="214" cy="304" rx="8.5" ry="7" fill="url(#catEye)"/><ellipse cx="244" cy="304" rx="8.5" ry="7" fill="url(#catEye)"/>
+    <ellipse cx="214" cy="304" rx="2" ry="6" fill="#1a0707"/><ellipse cx="244" cy="304" rx="2" ry="6" fill="#1a0707"/>
+    <path d="M205 296 L222 300 M252 300 L236 296" stroke="#07070d" stroke-width="3" stroke-linecap="round"/>
+    <path d="M226 316 L232 316 L229 320 Z" fill="#ff7b95"/><path d="M229 320 C227 324 224 324 222 322 M229 320 C231 324 234 324 236 322" stroke="#8a8a9c" stroke-width="1" fill="none"/>
+    <path d="M198 316 L180 312 M198 320 L182 324 M262 316 L280 312 M262 320 L278 324" stroke="#9aa0c4" stroke-width=".9" opacity=".7"/>
+    <path d="M196 330 C214 340 244 340 262 330" stroke="#d8334a" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <circle cx="229" cy="343" r="7" fill="#ffc94d"/><circle cx="229" cy="343" r="7" fill="none" stroke="#a8761c" stroke-width="1.2"/><path d="M225 343 L233 343" stroke="#a8761c" stroke-width="1.2"/>
+    <g transform="translate(250 270) scale(.8)"><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(0)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(72)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(144)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(216)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(288)"/><circle r="1.8" fill="#ffd36b"/></g>
+  </g>
+  <!-- 飘落的花瓣与火星 -->
+  <g transform="translate(110 150) rotate(30) scale(1.3)"><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(0)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(72)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(144)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(216)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(288)"/><circle r="1.8" fill="#ffd36b"/></g>
+  <g transform="translate(520 330) rotate(-20) scale(1.1)"><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(0)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(72)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(144)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(216)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(288)"/><circle r="1.8" fill="#ffd36b"/></g>
+  <g transform="translate(70 450) rotate(60) scale(.9)"><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(0)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(72)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(144)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(216)"/><ellipse cx="0" cy="-5.2" rx="3" ry="5.4" fill="#ffd0dc" transform="rotate(288)"/><circle r="1.8" fill="#ffd36b"/></g></g></svg>

@@ -1,0 +1,22 @@
+{
+  "envId": "key-asp-d2gf1564s6708f663",
+  "region": "ap-singapore",
+  "framework": {
+    "name": "container",
+    "plugins": {
+      "container": {
+        "use": "@cloudbase/framework-plugin-container",
+        "inputs": {
+          "serviceName": "yumeiro",
+          "servicePath": "./",
+          "dockerfilePath": "./Dockerfile",
+          "containerPort": 8787,
+          "cpu": 1,
+          "mem": 2,
+          "minNum": 0,
+          "maxNum": 1
+        }
+      }
+    }
+  }
+}

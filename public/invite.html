@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#e95164"><title>加入团队 · Yumeiro</title>
+<style>
+:root{--ink:#252832;--muted:#777b86;--line:#e7e8ec;--accent:#e95164;--accent-soft:#fff0f2}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{font:14px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}
+button,input{font:inherit}[hidden]{display:none!important}
+.shell{min-height:100%;display:grid;place-items:center;padding:24px;background:radial-gradient(60% 50% at 15% 10%,#ffe3e8 0,transparent 70%),radial-gradient(55% 45% at 90% 85%,#e4e8ff 0,transparent 70%),#f7f7fa}
+.card{width:min(440px,100%);padding:38px 36px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 24px 70px #2b2f4a1c}
+.brand{display:flex;align-items:center;gap:11px;margin-bottom:22px}.mark{width:36px;height:36px;border-radius:12px;background:var(--accent);display:grid;place-items:center;color:#fff;font-weight:800;font-size:17px}.bn{font-weight:750;font-size:18px}
+.pill{display:inline-block;margin-bottom:14px;padding:3px 11px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:650}
+h1{font-size:24px;letter-spacing:-.03em;margin:0}.sub{margin:8px 0 22px;color:var(--muted);font-size:13px}
+.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:12px;font-weight:650}
+.field input{height:44px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:#fff;width:100%}
+.field input:focus{border-color:#df9ca4;outline:3px solid #e951641c}.field input[readonly]{background:#f6f6f8;color:var(--muted)}
+.pw{position:relative}.pw input{padding-right:52px}.eye{position:absolute;right:6px;top:6px;height:32px;padding:0 10px;border:0;background:none;color:var(--muted);font-size:12px;cursor:pointer}
+.hint{font-size:11px;color:var(--muted);min-height:16px}.hint.bad{color:#b43744}.hint.ok{color:#2e8f67}
+.btn{width:100%;height:44px;margin-top:10px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-weight:650;cursor:pointer}.btn:hover{background:#d94356}.btn:disabled{opacity:.5;cursor:not-allowed}
+.err{min-height:18px;margin-top:10px;color:#b43744;font-size:12px}
+.note{margin:0 0 16px;padding:10px 12px;border-radius:10px;background:#eef3ff;color:#34508a;border:1px solid #d9e4ff;font-size:12px;line-height:1.6}
+.foot{margin-top:18px;font-size:11px;line-height:1.6;color:#989ba4}.foot a{color:var(--muted)}
+.dead{text-align:center;padding:10px 0}.dead .big{font-size:40px}
+@media(max-width:480px){.card{padding:26px 22px}}
+html[data-theme=dark]{color-scheme:dark;--ink:#e8e9ee;--muted:#9a9eab;--line:#2c2f3b;--accent-soft:#34202a}
+html[data-theme=dark] body{background:#0f1117}
+html[data-theme=dark] .shell{background:radial-gradient(60% 50% at 15% 10%,#3a1f2a 0,transparent 70%),radial-gradient(55% 45% at 90% 85%,#1f2440 0,transparent 70%),#0f1117}
+html[data-theme=dark] .card{background:#171a23;box-shadow:0 24px 70px #0008}
+html[data-theme=dark] .field input{background:#12141b;color:var(--ink)}html[data-theme=dark] .field input[readonly]{background:#1c1f29}
+html[data-theme=dark] .note{background:#1c2540;color:#a9c0ff;border-color:#2c3a66}
+html[data-theme=dark] .hint.bad,html[data-theme=dark] .err{color:#ff8a98}html[data-theme=dark] .hint.ok{color:#6fd6a6}
+html[data-theme=dark] .foot{color:#8a8e9b}
+</style><script src="/theme.js"></script></head><body>
+<div class="shell"><div class="card">
+  <div class="brand"><div class="mark">Y</div><div class="bn" id="siteName">Yumeiro</div></div>
+  <div id="loading" class="sub">正在检查邀请…</div>
+  <div id="dead" class="dead" hidden><div class="big">🔒</div><h1 id="deadTitle">邀请不可用</h1><p class="sub" id="deadText"></p><a href="/" class="foot">前往登录页</a></div>
+  <form id="form" hidden autocomplete="on">
+    <span class="pill">受邀加入</span>
+    <h1>创建你的账号</h1>
+    <p class="sub" id="sub">设置邮箱和密码后就能使用团队的 AI 工作空间。</p>
+    <div class="note" id="note" hidden></div>
+    <div class="field"><label for="email">邮箱</label><input id="email" type="email" required autocomplete="email" placeholder="name@company.com"></div>
+    <div class="field"><label for="name">显示名称（可选）</label><input id="name" maxlength="60" autocomplete="name" placeholder="同事看到的名字"></div>
+    <div class="field"><label for="pw">密码（至少 12 位）</label><div class="pw"><input id="pw" type="password" required autocomplete="new-password" placeholder="至少 12 个字符"><button type="button" class="eye" id="eye">显示</button></div><div class="hint" id="pwHint"></div></div>
+    <div class="field"><label for="pw2">再输入一次密码</label><input id="pw2" type="password" required autocomplete="new-password"></div>
+    <div class="err" id="err" role="alert"></div>
+    <button class="btn" id="submit" type="submit">创建账号并进入</button>
+    <div class="foot">已有账号？<a href="/">直接登录</a>。你的对话只有你本人能看到。</div>
+  </form>
+</div></div>
+<script>
+(()=>{
+  const $=s=>document.querySelector(s), token=location.pathname.split('/').pop();
+  const dead=(title,text)=>{$('#loading').hidden=true;$('#form').hidden=true;$('#dead').hidden=false;$('#deadTitle').textContent=title;$('#deadText').textContent=text};
+  const reasons={used:['邀请已被使用','这个邀请链接已经用完了，请向管理员重新索取。'],expired:['邀请已过期','这个邀请链接已过期，请向管理员重新索取。'],revoked:['邀请已撤销','管理员已撤销这个邀请。']};
+  fetch('/api/invite/'+encodeURIComponent(token),{credentials:'same-origin'}).then(async r=>{
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok)return dead('邀请无效',d.error||'邀请链接无效，请向管理员重新索取。');
+    if(d.siteName){$('#siteName').textContent=d.siteName;document.title='加入 '+d.siteName}
+    if(d.state!=='active'){const x=reasons[d.state]||reasons.revoked;return dead(x[0],x[1])}
+    if(d.email){$('#email').value=d.email;$('#email').readOnly=true}
+    if(d.note){$('#note').textContent=d.note;$('#note').hidden=false}
+    $('#loading').hidden=true;$('#form').hidden=false;
+  }).catch(()=>dead('无法连接','网络异常，请刷新页面重试。'));
+  $('#eye').onclick=()=>{const show=$('#pw').type==='password';$('#pw').type=show?'text':'password';$('#pw2').type=show?'text':'password';$('#eye').textContent=show?'隐藏':'显示'};
+  $('#pw').addEventListener('input',()=>{const n=$('#pw').value.length,h=$('#pwHint');h.className='hint '+(n>=12?'ok':n?'bad':'');h.textContent=n?(n>=12?'长度合格':'还差 '+(12-n)+' 位'):''});
+  $('#form').addEventListener('submit',async e=>{
+    e.preventDefault();const err=$('#err');err.textContent='';
+    if($('#pw').value!==$('#pw2').value){err.textContent='两次输入的密码不一致';return}
+    $('#submit').disabled=true;
+    try{
+      const r=await fetch('/api/invite/'+encodeURIComponent(token)+'/accept',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('#email').value,displayName:$('#name').value,password:$('#pw').value})});
+      const d=await r.json().catch(()=>({}));
+      if(!r.ok)throw new Error(d.error||'创建失败：'+r.status);
+      location.href='/';
+    }catch(x){err.textContent=x.message;$('#submit').disabled=false}
+  });
+})();
+</script></body></html>

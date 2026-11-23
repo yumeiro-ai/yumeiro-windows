@@ -1,0 +1,515 @@
+/* 深色主题：靠 html[data-theme=dark] 切换；变量 + 针对写死白底组件的覆盖 */
+html[data-theme=dark]{
+  color-scheme:dark;
+  --ink:#e8e9ee;--muted:#9a9eab;--line:#2c2f3b;--accent-soft:#34202a;--shadow:0 16px 45px #0009;
+  --ym-card:#171a23;--gs-fg:#e8e9ee;--gs-muted:#9a9eab;--gs-grid:#2c2f3b;--gs-bg:#161922;--gs-card:#1a1d27;
+}
+html[data-theme=dark] body,html[data-theme=dark] body.settings-page{background:#0f1117;color:var(--ink)}
+html[data-theme=dark] .login-card,html[data-theme=dark] .modal,html[data-theme=dark] .composer,html[data-theme=dark] .bubble,
+html[data-theme=dark] .suggestion,html[data-theme=dark] .pill,html[data-theme=dark] .icon-button,html[data-theme=dark] .secondary,
+html[data-theme=dark] .team-nav,html[data-theme=dark] .team-main,html[data-theme=dark] .team-modal,html[data-theme=dark] .mk-card,
+html[data-theme=dark] .field input,html[data-theme=dark] .composer-picks select{background:#171a23;color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] .topbar{background:#0f1117cc;border-color:var(--line)}
+html[data-theme=dark] .suggestion:hover,html[data-theme=dark] .team-nav button:hover,html[data-theme=dark] .team-main .secondary:hover{background:#212531;border-color:#3a3f50}
+html[data-theme=dark] .message.user .bubble{background:#3b3f55;border-color:#3b3f55;color:#fff}
+html[data-theme=dark] .message.user .mavatar{background:#3a2229;color:#ffb3bd}
+html[data-theme=dark] .bubble.error{background:#2c1a1e;border-color:#5a2a33;color:#ffb3bd}
+html[data-theme=dark] .composer textarea,html[data-theme=dark] .team-main input,html[data-theme=dark] .team-main textarea,html[data-theme=dark] .team-main select,
+html[data-theme=dark] .mk-search{background:#12141b;color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] .team-main code{background:#232736;color:#e8e9ee}
+html[data-theme=dark] .team-row{background:transparent;border-color:var(--line)}
+html[data-theme=dark] .team-main .team-row:hover,html[data-theme=dark] .mk-card:hover{border-color:#3a3f50;box-shadow:0 2px 14px #0007}
+html[data-theme=dark] .team-note,html[data-theme=dark] .team-nav h4,html[data-theme=dark] .note,html[data-theme=dark] .footnote{color:var(--muted)}
+html[data-theme=dark] .team-pagehead a{color:#c9ccd6}
+html[data-theme=dark] .mk-badge{background:#252938;color:#c0c4d0}
+html[data-theme=dark] .mk-desc,html[data-theme=dark] .mk-tags span{color:#b4b8c5}
+html[data-theme=dark] .mk-seg button.on{background:#262a38;color:#ff8896}
+html[data-theme=dark] .team-err,html[data-theme=dark] .login-error{color:#ff8a98}
+html[data-theme=dark] .team-pagehead{background:#171a23;border-color:var(--line);box-shadow:none}
+html[data-theme=dark] .team-pagehead h2{color:var(--ink)}
+html[data-theme=dark] .team-nav button{color:#d4d6df}
+html[data-theme=dark] .team-nav button.on{background:#34202a;color:#ff8a98}
+html[data-theme=dark] hr{border-color:var(--line)}
+html[data-theme=dark] table th,html[data-theme=dark] table td{border-color:var(--line)!important}
+html[data-theme=dark] img.avatar-img,html[data-theme=dark] video{filter:none}
+
+/* 仪表盘（浅色默认值 + 深色覆盖） */
+.gs-dash{--gs-card:#ffffff;display:block}
+.gs-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 14px}
+.gs-bar select,.gs-bar input{height:34px;padding:0 10px;border:1px solid var(--line);border-radius:9px;background:var(--gs-card,#fff);color:var(--ink);width:auto;min-width:0}
+.gs-bar .secondary{height:34px}
+html[data-theme=dark] .gs-bar select,html[data-theme=dark] .gs-bar input{background:#12141b}
+.gs-dash .gs-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.gs-dash .gs-kpi{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--gs-card)}
+.gs-dash .gs-kpi b{display:block;font-size:22px;line-height:1.2}
+.gs-dash .gs-kpi span{font-size:12px;color:var(--muted)}
+.gs-dash .gs-kpi.bad b{color:#c0392b}
+.gs-dash .gs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px}
+.gs-dash .gs-card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--gs-card);min-width:0}
+.gs-dash .gs-card.wide{grid-column:1/-1}
+.gs-dash .gs-card h4{margin:0 0 8px;font-size:13px;display:flex;align-items:center;gap:8px}
+.gs-dash .gs-card h4 .grow{flex:1}
+.gs-dash .gs-mini{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:7px;font-size:11px;padding:2px 8px;cursor:pointer}
+.gs-dash .gs-mini:hover{color:var(--ink);border-color:var(--muted)}
+html[data-theme=dark] .gs-dash{--gs-card:#1a1d27}
+html[data-theme=dark] .gs-dash .gs-kpi.bad b{color:#ff8a98}
+@media print{.gs-dash .gs-bar,.gs-dash .gs-mini,.sidebar,.topbar,.team-nav{display:none!important}.gs-dash{--gs-card:#fff}body{background:#fff!important;color:#000!important}}
+
+/* 深色模式下的设置页：不再是一整块不透明的“黑板”盖住壁纸，改成和聊天界面一致的半透明玻璃 */
+html[data-theme=dark] body.settings-page .team-page .team-modal{background:none;border:0;box-shadow:none}
+html[data-theme=dark] body.settings-page .team-pagehead,
+html[data-theme=dark] body.settings-page .team-nav,
+html[data-theme=dark] body.settings-page .team-main{background:rgba(16,18,27,.62);border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 30px rgba(0,0,0,.28);-webkit-backdrop-filter:blur(22px) saturate(1.25);backdrop-filter:blur(22px) saturate(1.25)}
+html[data-theme=dark] body.settings-page .team-main .team-row,
+html[data-theme=dark] body.settings-page .mk-card{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
+html[data-theme=dark] body.settings-page .team-main .team-row:hover,
+html[data-theme=dark] body.settings-page .mk-card:hover{background:rgba(255,255,255,.09)}
+html[data-theme=dark] body.settings-page .team-main input,
+html[data-theme=dark] body.settings-page .team-main select,
+html[data-theme=dark] body.settings-page .team-main textarea,
+html[data-theme=dark] body.settings-page .team-main .secondary{background:rgba(8,9,14,.5);border-color:rgba(255,255,255,.14)}
+html[data-theme=dark] body.settings-page .team-nav button:hover{background:rgba(255,255,255,.08)}
+html[data-theme=dark] body.settings-page .team-nav button.on{background:rgba(233,81,100,.2)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  html[data-theme=dark] body.settings-page .team-pagehead,html[data-theme=dark] body.settings-page .team-nav,html[data-theme=dark] body.settings-page .team-main{background:rgba(16,18,27,.94)}
+}
+
+/* ---- 手机版聊天首页（窄屏）：更紧凑、点击区域更大；输入区分两行（选项一行横向滑动，输入和发送一行）---- */
+@media(max-width:760px){
+  body[data-page="app"] .sidebar{width:min(84vw,300px)}
+  body[data-page="app"] .topbar{height:52px;padding:0 10px;gap:6px}
+  body[data-page="app"] .crumb{font-size:13px}
+  body[data-page="app"] .icon-button{width:36px;height:36px}
+  body[data-page="app"] .content{padding:12px 14px 6px}
+  body[data-page="app"] .welcome{padding:8px 0}
+  body[data-page="app"] .spark{width:40px;height:40px;border-radius:13px;margin-bottom:12px}
+  body[data-page="app"] .welcome h1{font-size:22px}
+  body[data-page="app"] .welcome p{margin:6px 0 16px;font-size:13px}
+  body[data-page="app"] .suggestions{grid-template-columns:1fr 1fr;gap:8px}
+  body[data-page="app"] .suggestion{flex-direction:column;align-items:flex-start;gap:6px;padding:10px;min-height:68px}
+  body[data-page="app"] .suggestion strong{font-size:13px}
+  body[data-page="app"] .suggestion small{display:none}
+  body[data-page="app"] .messages{gap:12px}
+  body[data-page="app"] .mavatar{display:none}
+  body[data-page="app"] .bubble{max-width:94%;font-size:15px;padding:10px 12px;line-height:1.65}
+  body[data-page="app"] .composer-wrap{padding:6px 10px calc(8px + env(safe-area-inset-bottom,0px))}
+  body[data-page="app"] .composer{padding:8px 10px;border-radius:14px}
+  body[data-page="app"] .composer textarea{font-size:16px;min-height:40px;max-height:120px}
+  body[data-page="app"] .composer-bottom{flex-wrap:wrap;gap:6px;align-items:center}
+  body[data-page="app"] .composer-picks{order:-1;flex:1 0 100%;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+  body[data-page="app"] .composer-picks::-webkit-scrollbar{display:none}
+  body[data-page="app"] .composer-picks select{max-width:none;flex:0 0 auto;min-width:96px;height:32px}
+  body[data-page="app"] .composer-bottom .send{margin-left:auto;width:40px;height:40px}
+  body[data-page="app"] .footnote{display:none}
+  body[data-page="app"] input,body[data-page="app"] textarea,body[data-page="app"] select{font-size:16px}
+}
+@media(max-width:380px){body[data-page="app"] .welcome h1{font-size:20px}body[data-page="app"] .suggestions{gap:6px}}
+
+/* ---- 手机版顶栏：工具按钮很多（工具箱 / 文档 / 下载 / 宠物 / 调色 / 记忆…），改成两行——第一行菜单 + 标题，第二行按钮可横向滑动，不再把菜单挤出屏幕 ---- */
+@media(max-width:760px){
+  body[data-page="app"] .topbar{height:auto;min-height:46px;flex-wrap:wrap;align-items:center;padding:6px 10px 4px;row-gap:4px}
+  body[data-page="app"] .top-left{order:1;flex:1 1 100%;min-width:0}
+  body[data-page="app"] .top-left .crumb{flex:1;min-width:0}
+  body[data-page="app"] .top-right{order:2;flex:1 0 100%;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;gap:8px;padding:2px 0 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent)}
+  body[data-page="app"] .top-right::-webkit-scrollbar{display:none}
+  body[data-page="app"] .top-right>*{flex:0 0 auto}
+  body[data-page="app"] .top-right .icon-button{width:38px;height:38px}
+  body[data-page="app"] .welcome .spark{width:84px!important;height:84px!important;margin-bottom:10px}
+  body[data-page="app"] .composer textarea{height:52px;min-height:44px;background:transparent!important;padding:4px 2px 6px}
+  body[data-page="app"] .composer-bottom .icon-button,body[data-page="app"] .composer-bottom button:not(.send){width:40px;height:40px}
+}
+
+/* ---- 手机版“⋯ 工具”面板：顶栏只留菜单 + 标题 + 一个按钮，其余工具按钮收进面板 ---- */
+@media(max-width:760px){
+  body.m-tools[data-page="app"] .topbar{height:52px;min-height:0;flex-wrap:nowrap;padding:0 10px}
+  body.m-tools[data-page="app"] .top-left{flex:1 1 auto}
+  body.m-tools[data-page="app"] .top-right{display:none!important}
+  body.m-tools #mobileToolsButton{margin-left:auto;width:38px;height:38px;font-size:20px;line-height:1;flex:none}
+  #mobileToolsPanel{position:fixed;left:10px;right:10px;top:56px;z-index:45;max-height:68vh;overflow:auto;padding:12px;border-radius:16px;background:var(--ym-card,var(--panel,#fff));color:var(--ink,#252832);border:1px solid var(--line,#e7e8ec);box-shadow:0 14px 40px #0004}
+  #mobileToolsPanel .mt-status{font-size:12px;color:var(--muted,#777b86);margin:0 2px 10px}
+  #mobileToolsPanel .mt-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+  #mobileToolsPanel .mt-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:70px;padding:8px 2px;border:1px solid var(--line,#e7e8ec);border-radius:12px;background:transparent;color:inherit}
+  #mobileToolsPanel .mt-tile:active{background:var(--accent-soft,#fff0f2)}
+  #mobileToolsPanel .mt-tile:disabled{opacity:.4}
+  #mobileToolsPanel .mt-i{font-size:22px;line-height:1}
+  #mobileToolsPanel .mt-l{font-size:11px;color:var(--muted,#777b86);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
+@media(min-width:761px){#mobileToolsButton,#mobileToolsPanel{display:none!important}}
+
+/* ---- 窄屏下的整页浮层 / 弹窗通用加固（绘画、语音通话、视觉、密码等）：不超出屏幕、标题行里的按钮不被挤成竖排、避开刘海和底部横条 ---- */
+@media(max-width:760px){
+  .modal-backdrop{padding:10px}
+  .modal{max-height:92vh;max-height:92dvh;overflow:auto;overflow-wrap:anywhere}
+  .modal-head{gap:10px;align-items:flex-start}
+  .modal-head h2{min-width:0}
+  .modal-head .secondary,.modal-head button{flex:none;white-space:nowrap;min-height:38px}
+  .modal input,.modal select,.modal textarea{max-width:100%;min-width:0;font-size:16px}
+  .modal-actions{flex-wrap:wrap}.modal-actions>*{flex:1 1 120px}
+  .ym-call{padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));overflow:auto}
+  .ym-call .ym-line{max-height:32vh;overflow:auto}
+  .ym-call button{min-height:42px}
+}
+@media(max-width:760px) and (max-height:560px){.ym-orb{width:96px!important;height:96px!important}.ym-call{gap:10px}}
+@media(max-width:760px){
+  .ym-guide{width:100vw;border-left:0}
+  .ym-guide header{flex-wrap:wrap;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+  .ym-guide header button{min-height:36px;white-space:nowrap}
+  .ym-guide form{padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+  .ym-guide textarea{font-size:16px}
+}
+
+/* ---- 深色主题补充：之前只有部分组件有深色适配，下面补上提示条、客户端引导、市场标签、宠物聊天面板等 ---- */
+html[data-theme=dark] .quota-banner{background:#3a2d12;color:#f0c674;border-color:var(--line)}
+html[data-theme=dark] .quota-banner.exceeded{background:#3b1b1f;color:#ff9aa5}
+html[data-theme=dark] .service-update-banner{background:#3b1b24;color:#ff9aa8;border-bottom-color:#5a2a33}
+html[data-theme=dark] .mk-badge.external{background:#3a2d12;color:#f0c674}
+html[data-theme=dark] .mk-banner{background:#173226;color:#8be0b3;border-color:#245139}
+html[data-theme=dark] .mk-seg button.on{background:#262a38}
+html[data-theme=dark] #clientGuide{background:#000a;color:var(--ink)}
+html[data-theme=dark] #clientGuide .cg-card{background:var(--ym-card);color:var(--ink);box-shadow:0 20px 70px #000a}
+html[data-theme=dark] #clientGuide p,html[data-theme=dark] #clientGuide .cg-note{color:var(--muted)}
+html[data-theme=dark] #clientGuide .cg-close{background:#262a38;color:var(--ink)}
+html[data-theme=dark] #clientGuide a,html[data-theme=dark] #clientGuide button.cg-install{background:transparent;color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] #clientGuide a.cg-primary,html[data-theme=dark] #clientGuide button.cg-install{background:#7955c7;color:#fff;border-color:#7955c7}
+html[data-theme=dark] .login-shell{background:radial-gradient(ellipse at 50% 20%,#1a1d27 0,#0f1117 68%)}
+html[data-theme=dark] .security-note{color:#8a8e9b}
+html[data-theme=dark] .sec-card,html[data-theme=dark] .sec-card input{background:transparent;color:var(--ink)}
+html[data-theme=dark] #mobileToolsPanel{background:var(--ym-card);color:var(--ink)}
+html[data-theme=dark] .gm.assistant,html[data-theme=dark] .ym-guide .gm.user{color:var(--ink)}
+
+/* ---- 统一按钮：主按钮（.primary，实心）、次按钮（.secondary，描边）、危险次按钮（.secondary.danger，红色）。
+   全站同一高度 / 圆角 / 字号，不再各页各一套（之前有 34 / 36 / 40 / 44 px 几种）。图标按钮、标签芯片等另有用途，不在此列。 ---- */
+.primary,.secondary{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:38px!important;min-height:38px;padding:0 16px!important;border-radius:10px!important;font-size:14px!important;font-weight:600;line-height:1;white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s,color .15s,opacity .15s}
+.primary{background:var(--accent,#e95164);border:1px solid var(--accent,#e95164);color:#fff}
+.primary:hover:not(:disabled){background:#d94356;border-color:#d94356}
+.secondary{border:1px solid var(--line,#e7e8ec);color:var(--ink,#252832)}
+.secondary:hover:not(:disabled){border-color:var(--accent,#e95164);color:var(--accent,#e95164)}
+.primary:disabled,.secondary:disabled{opacity:.5;cursor:not-allowed}
+.secondary.danger{color:#d33a4a;border-color:#d33a4a66}
+.secondary.danger:hover:not(:disabled){background:#d33a4a;border-color:#d33a4a;color:#fff}
+html[data-theme=dark] .secondary.danger{color:#ff8a98;border-color:#ff8a9855}
+html[data-theme=dark] .secondary.danger:hover:not(:disabled){background:#d33a4a;border-color:#d33a4a;color:#fff}
+.login-card .primary,.team-main button.wide{height:44px!important}
+.gs-bar .secondary,.gs-bar .primary{height:34px!important;padding:0 12px!important;font-size:13px!important}
+@media(pointer:coarse){.primary,.secondary{height:42px!important;min-height:42px}}
+
+/* ---- 文件选择框统一：浏览器自带的灰色“选择文件”按钮换成和次按钮一致的样式；滑块用主题色 ---- */
+input[type=file]{box-sizing:border-box;width:100%;max-width:100%;height:auto!important;padding:6px!important;border:1px dashed var(--line,#e7e8ec)!important;border-radius:12px!important;background:transparent!important;color:var(--muted,#777b86);font-size:13px}
+input[type=file]::file-selector-button{margin-right:12px;height:34px;padding:0 14px;border:1px solid var(--line,#e7e8ec);border-radius:10px;background:transparent;color:var(--ink,#252832);font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .15s,color .15s}
+input[type=file]::file-selector-button:hover{border-color:var(--accent,#e95164);color:var(--accent,#e95164)}
+html[data-theme=dark] input[type=file]::file-selector-button{background:#171a23;color:var(--ink)}
+input[type=range]{accent-color:var(--accent,#e95164)}
+input[type=checkbox],input[type=radio]{accent-color:var(--accent,#e95164)}
+
+/* ---- 链接卡片：把一排下划线链接换成可点的卡片（图标 + 名称 + 域名 + ↗），窄屏下纵向排列 ---- */
+.link-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.link-card{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line,#e7e8ec);border-radius:12px;text-decoration:none!important;color:var(--ink,#252832)!important;background:transparent;transition:border-color .15s,background .15s}
+.link-card:hover{border-color:var(--accent,#e95164);background:var(--accent-soft,#fff0f2)}
+html[data-theme=dark] .link-card:hover{background:#2a1f27}
+.link-card .lc-i{font-size:22px;line-height:1;flex:none}
+.link-card .lc-t{display:flex;flex-direction:column;min-width:0;flex:1}
+.link-card .lc-t strong{font-size:14px}.link-card .lc-t small{font-size:12px;color:var(--muted,#777b86);overflow:hidden;text-overflow:ellipsis}
+.link-card .lc-go{flex:none;color:var(--muted,#777b86);font-size:16px}.link-card:hover .lc-go{color:var(--accent,#e95164)}
+
+/* ---- 管理设置里的表单对齐：之前所有表单都套同一个两列网格，复选框、带标签的输入框、按钮会散落在左右两列里。
+   现在：带标签的输入框 = 左边标签、右边输入占满；复选框各占一行；按钮靠左成一排。 ---- */
+.team-main .team-form>label{display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr);align-items:center;gap:6px 12px;grid-column:1/-1;font-size:14px}
+.team-main .team-form>label>input:not([type=checkbox]):not([type=radio]),.team-main .team-form>label>select,.team-main .team-form>label>textarea{width:100%;min-width:0}
+.team-main .team-form>label:has(>input[type=checkbox]),.team-main .team-form>label:has(>input[type=radio]){display:flex;align-items:center;gap:8px;min-height:36px}
+.team-main .team-form>button,.team-main .team-form>.primary,.team-main .team-form>.secondary{justify-self:start}
+.team-main .team-form>button.wide,.team-main .team-form>.wide{justify-self:stretch}
+.team-main .team-form>div[style*="display:flex"]{grid-column:1/-1}
+@media(max-width:640px){.team-main .team-form>label{grid-template-columns:1fr}.team-main .team-form>button,.team-main .team-form>.primary,.team-main .team-form>.secondary{justify-self:stretch}}
+
+/* ---- Cindy 共享确认的阅读计时：状态文字 + 进度条、整行可点的确认框、靠左的按钮，三块对齐 ---- */
+.rd-timer{display:grid;gap:8px;padding:10px 12px;border:1px solid var(--line,#e7e8ec);border-radius:12px}
+.rd-text{font-size:13px;line-height:1.6;color:var(--muted,#777b86)}
+.rd-bar{height:6px;border-radius:99px;background:var(--line,#e7e8ec);overflow:hidden}.rd-bar[hidden]{display:none}
+.rd-bar i{display:block;height:100%;width:0;background:var(--accent,#e95164);border-radius:99px;transition:width .9s linear}
+.rd-check{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line,#e7e8ec);border-radius:12px;line-height:1.6;cursor:pointer}
+.rd-check input{flex:none;width:18px;height:18px;margin:3px 0 0}
+.rd-check:has(input:disabled){opacity:.55;cursor:not-allowed}
+.rd-check:has(input:checked){border-color:var(--accent,#e95164);background:var(--accent-soft,#fff0f2)}
+html[data-theme=dark] .rd-check:has(input:checked){background:#2a1f27}
+.rd-actions{display:flex}
+@media(max-width:640px){.rd-actions .primary{width:100%}}
+
+/* ---- 表单里连续的复选框并成一行；连续的按钮并成一行并拉成等宽（由 team.js 的 tidyForms 整理） ---- */
+.team-main .team-form>.check-row{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:6px 28px}
+.team-main .team-form>.check-row>label{display:flex;align-items:center;gap:8px;min-height:36px}
+.team-main .team-form>.btn-row{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px}
+.team-main .team-form>.btn-row>button{flex:1 1 150px;justify-self:auto}
+
+/* ---- 内容查看弹窗里整理后的 Markdown（技能 / 机器人模板）：名称与简介摘要卡 + 清晰的标题、列表、引用和代码块 ---- */
+.mk-md{display:grid;gap:10px;line-height:1.75;font-size:14px;overflow-wrap:anywhere}
+.mk-md p,.mk-md ul,.mk-md ol,.mk-md blockquote,.mk-md pre,.mk-md hr{margin:0}
+.mk-md-sum{padding:12px 14px;border-radius:12px;background:var(--accent-soft,#fff0f2);border:1px solid var(--line,#e7e8ec)}
+html[data-theme=dark] .mk-md-sum{background:#2a1f27}
+.mk-md-name{font-weight:700;font-size:15px}.mk-md-desc{margin-top:4px;color:var(--muted,#777b86)}
+.mk-md-h1,.mk-md-h2,.mk-md-h3{margin:6px 0 0;font-size:15px;font-weight:700;padding-left:10px;border-left:3px solid var(--accent,#e95164)}
+.mk-md-h2,.mk-md-h3{font-size:14px}
+.mk-md ul,.mk-md ol{padding-left:22px;display:grid;gap:4px}
+.mk-md blockquote{padding:8px 12px;border-left:3px solid var(--line,#e7e8ec);color:var(--muted,#777b86);background:rgba(127,127,140,.08);border-radius:0 8px 8px 0}
+.mk-md code{padding:1px 6px;border-radius:6px;background:rgba(127,127,140,.16);font-size:12.5px}
+.mk-md pre{padding:10px 12px;border-radius:10px;background:rgba(127,127,140,.12);overflow:auto;white-space:pre-wrap;font-size:12.5px;line-height:1.6}
+.mk-md pre code{padding:0;background:none}
+.mk-md hr{border:0;border-top:1px solid var(--line,#e7e8ec)}
+.mk-md-wrap[hidden]{display:none}
+.mk-md-table{overflow-x:auto;border:1px solid var(--line,#e7e8ec);border-radius:10px}
+.mk-md-table table{border-collapse:collapse;width:100%;min-width:max-content;font-size:13px;line-height:1.6}
+.mk-md-table th,.mk-md-table td{padding:7px 12px;border-bottom:1px solid var(--line,#e7e8ec);text-align:left;vertical-align:top}
+.mk-md-table th{background:rgba(127,127,140,.12);font-weight:650;white-space:nowrap}
+.mk-md-table tr:last-child td{border-bottom:0}
+
+/* ---- 空状态居中：市场等卡片网格里，“没有内容”原来只占一格、靠左；现在横跨整行，文字水平垂直都居中 ---- */
+.team-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;min-height:140px;padding:28px 16px;box-sizing:border-box}
+.mk-grid>.team-empty,.team-main .mk-grid>.team-empty{grid-column:1/-1;width:100%}
+
+/* ---- 工作区：列表页是卡片网格（顶部搜索 + 新建），详情页分三个标签 ---- */
+.ws-toolbar{display:flex;gap:10px;align-items:center;margin:10px 0 14px}.ws-toolbar .mk-search{flex:1;min-width:0}
+.ws-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.ws-grid>.team-empty{grid-column:1/-1}
+.ws-card{display:flex;flex-direction:column;gap:12px;padding:14px;border:1px solid var(--line,#e7e8ec);border-radius:14px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s;outline:none}
+.ws-card:hover,.ws-card:focus-visible{border-color:var(--accent,#e95164);box-shadow:0 6px 22px #00000014;transform:translateY(-1px)}
+.ws-card-top{display:flex;gap:12px;align-items:center;min-width:0}
+.ws-ico{flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft,#fff0f2);color:var(--accent,#e95164);font-weight:800;font-size:16px}
+.ws-title{display:flex;flex-direction:column;min-width:0}.ws-title strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:15px}.ws-title small{color:var(--muted,#777b86);font-size:12px}
+.ws-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted,#777b86)}
+.ws-badge{display:inline-block;padding:2px 10px;border-radius:99px;border:1px solid var(--line,#e7e8ec);font-size:12px;color:var(--ink,#252832);white-space:nowrap}
+.ws-actions{display:flex;gap:8px;margin-top:auto}.ws-actions>*{flex:1}
+.ws-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0 6px}
+.ws-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line,#e7e8ec);margin:6px 0 14px;overflow-x:auto}
+.ws-tab{border:0;border-bottom:2px solid transparent;background:none;color:var(--muted,#777b86);padding:9px 14px;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.ws-tab.on{color:var(--accent,#e95164);border-bottom-color:var(--accent,#e95164)}.ws-tab:hover:not(.on){color:var(--ink,#252832)}
+.team-main [hidden]{display:none!important}
+@media(max-width:640px){.ws-toolbar{flex-wrap:wrap}.ws-toolbar .mk-search{flex:1 0 100%}.ws-toolbar .primary{width:100%}.ws-grid{grid-template-columns:1fr}}
+.ws-toolbar{align-items:stretch}.ws-toolbar .mk-search{height:42px;margin:0}.ws-toolbar .primary{height:42px!important;flex:none}
+
+/* ---- 工作区详情页的按钮条：主操作靠左（实心红），次要操作紧随其后，破坏性操作（删除 / 撤销 / 停止）在最右并标红；同类按钮并一排 ---- */
+.ws-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.ws-bar>.danger{margin-left:auto}
+.ws-bar>a.secondary{text-decoration:none}
+@media(max-width:640px){.ws-bar>button,.ws-bar>a.secondary{flex:1 1 140px}.ws-bar>.danger{margin-left:0}}
+/* 下拉菜单展开后的选项：深色主题下用深色背景 + 浅色文字（之前是白底浅灰字，几乎看不见） */
+select option,select optgroup{background:var(--ym-card,#fff);color:var(--ink,#252832)}
+html[data-theme=dark] select option{background:#171a23;color:#e8e9ee}
+
+/* ---- 工作区列表：文件夹标题行 + 任务行（标题 / 摘要 / 多久之前） ---- */
+.ws-list{display:grid;gap:22px}
+.ws-sec-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 8px}
+.ws-folder{font-size:18px}.ws-name{font-size:16px;cursor:pointer;max-width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ws-name:hover{color:var(--accent,#e95164)}
+.ws-sub{color:var(--muted,#777b86);font-size:12px}.ws-sec-head .sp{flex:1}
+.ws-runs{border:1px solid var(--line,#e7e8ec);border-radius:14px;overflow:hidden}
+.ws-run{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:0;border-bottom:1px solid var(--line,#e7e8ec);background:transparent;color:inherit;text-align:left;font:inherit;cursor:pointer}
+.ws-run:last-child{border-bottom:0}.ws-run:hover{background:var(--accent-soft,#fff0f2)}html[data-theme=dark] .ws-run:hover{background:#1f2430}
+.ws-run-ico{flex:none;width:24px;text-align:center}.ws-run-main{display:flex;flex-direction:column;min-width:0;flex:1}
+.ws-run-main strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}.ws-run-main small{color:var(--muted,#777b86);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ws-run-time{flex:none;color:var(--muted,#777b86);font-size:13px}
+.ws-run-empty{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px;color:var(--muted,#777b86);font-size:13px}
+@media(max-width:640px){.ws-name{max-width:100%}.ws-sec-head .sp{display:none}.ws-sec-head>.secondary{flex:1}}
+
+/* ---- 首页（参考 Cindy）：没有对话时，品牌标识 + 居中的大输入卡 + 竖排建议；左侧栏里有“工作区”文件夹 ---- */
+body.home-hero-on .welcome.home-hero{width:min(780px,100%);align-items:stretch;margin:auto 0;padding:8px 0}
+.home-hero .spark,.home-hero>h1,.home-hero>p{display:none!important}
+.hero-brand{display:flex;align-items:center;gap:12px;margin:0 2px 14px}
+.hero-brand img,.hero-brand .brand-mark{width:44px;height:44px;border-radius:14px;object-fit:cover;flex:none}
+.hero-word{font-size:28px;font-weight:800;letter-spacing:.02em}
+.home-hero .composer-wrap{width:100%;max-width:none;margin:0 0 16px;padding:0}
+.home-hero .composer{padding:16px 16px 12px;border-radius:20px;box-shadow:0 12px 40px #0000001f}
+.home-hero .composer textarea{min-height:84px;font-size:16px}
+.home-hero .footnote{display:none}
+.home-hero .suggestions{width:100%;grid-template-columns:1fr;gap:2px}
+.home-hero .suggestion{border:0;background:transparent;padding:10px 8px;border-radius:10px;align-items:center}
+.home-hero .suggestion:hover{background:var(--accent-soft,#fff0f2)}html[data-theme=dark] .home-hero .suggestion:hover{background:#1f2430}
+.home-hero .suggestion small{display:none}.home-hero .suggestion strong{font-size:14px;font-weight:600}
+.sb-ws{margin-top:6px;min-height:0;display:flex;flex-direction:column}
+.sb-ws-head{display:flex;align-items:center;justify-content:space-between;padding-right:8px}.sb-ws-head .label{padding-bottom:6px}
+.sb-ws-all{font-size:11px;color:#9599a5;text-decoration:none}.sb-ws-all:hover{color:#fff}
+.sb-ws-list{display:flex;flex-direction:column;gap:2px;max-height:34vh;overflow:auto}
+.sb-ws-row{display:flex;align-items:center;gap:6px;min-height:34px;padding:0 8px;border:0;border-radius:8px;background:none;color:#d4d5db;text-align:left;font:inherit;cursor:pointer}
+.sb-ws-row:hover,.sb-ws-row.open{background:#252832;color:#fff}.sb-caret{width:10px;font-size:10px;color:#888c99;flex:none}
+.sb-ws-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-runs{display:flex;flex-direction:column;gap:1px;margin:0 0 4px 22px;padding-left:8px;border-left:1px solid #30323d}
+.sb-run{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;color:#b4b7c1;text-decoration:none;font-size:12.5px}
+.sb-run:hover{background:#252832;color:#fff}.sb-run-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sb-run-time{flex:none;font-size:11px;color:#888c99}
+.sb-enter{color:#e95164}.sb-ws-empty{display:block;padding:6px 10px;font-size:12px;color:#858995;text-decoration:none}
+@media(max-width:760px){body.home-hero-on .welcome.home-hero{width:100%}.hero-word{font-size:24px}.home-hero .composer textarea{min-height:72px}}
+
+/* ---- 首页侧栏里的工作区：＋ 新建、⚙ 设置；点开的工作区在首页上层的浮层里显示 ---- */
+.sb-ws-add{border:1px solid #3c3e49;background:#232630;color:#d4d5db;border-radius:8px;width:24px;height:24px;line-height:1;cursor:pointer}.sb-ws-add:hover{background:#2c2f3a;color:#fff}
+.sb-gear{opacity:0;flex:none;padding:2px 4px;border-radius:6px;color:#adb0b9}.sb-ws-row:hover .sb-gear,.sb-ws-row:focus-within .sb-gear{opacity:1}.sb-gear:hover{background:#30323d;color:#fff}
+@media(pointer:coarse){.sb-gear{opacity:1}}
+button.sb-run,button.sb-link{width:100%;border:0;background:none;font:inherit;text-align:left;cursor:pointer}button.sb-link{color:#e95164}
+.ws-overlay{position:fixed;inset:0;z-index:60;background:#10121a99;display:grid;place-items:center;padding:16px}
+.ws-overlay-card{width:min(1100px,100%);max-height:94vh;max-height:94dvh;overflow:auto;background:var(--ym-card,#fff);color:var(--ink,#252832);border:1px solid var(--line,#e7e8ec);border-radius:18px;box-shadow:0 24px 70px #0006;padding:18px 22px 26px}
+.ws-overlay-body{background:none;border:0;box-shadow:none;padding:0;min-height:0}
+@media(max-width:760px){.ws-overlay{padding:0}.ws-overlay-card{width:100%;max-height:100dvh;height:100dvh;border-radius:0;padding:14px}}
+
+/* ---- 新建 / 编辑群聊：输入框统一样式；每位成员一张卡片（名称 + 移除、模型 + 智能体、身份、擅长），不再挤成一长行 ---- */
+.gedit-wrap .modal>input,.gedit-wrap .modal>label>select,.gedit-wrap .modal>label>input,.gedit-row input,.gedit-row select{height:40px;border:1px solid var(--line,#e7e8ec);border-radius:10px;padding:0 12px;background:transparent;color:inherit;font:inherit}
+.gedit-wrap .modal>input{width:100%}
+.gedit-wrap .modal>label{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.gedit-row input::placeholder{color:var(--muted,#777b86)}
+.gedit-member{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;padding:12px;border-radius:12px;align-items:center}
+.gedit-member>*{width:100%!important;max-width:none!important;min-width:0!important;flex:none!important}
+.gedit-member>:nth-child(1){order:1}.gedit-member>button{order:2;width:auto!important;justify-self:end;min-width:72px}
+.gedit-member>:nth-child(2){order:3}.gedit-member>:nth-child(3){order:4}
+.gedit-member>:nth-child(4){order:5;grid-column:1/-1}.gedit-member>:nth-child(5){order:6;grid-column:1/-1}
+.gedit-pm{display:flex!important;flex-wrap:wrap;align-items:center;gap:8px;padding:12px;border-radius:12px}
+.gedit-pm select,.gedit-pm input{flex:1 1 130px}.gedit-pm>span{flex:1 0 100%}
+.gedit-wrap .modal h3{font-size:18px}
+@media(max-width:560px){.gedit-member{grid-template-columns:minmax(0,1fr)}.gedit-member>button{justify-self:stretch;width:100%!important;order:7}.gedit-member>:nth-child(2){order:2}.gedit-member>:nth-child(3){order:3}}
+
+/* ---- 登录页：登录按钮下面是“或者”分隔线 + 两个并排的图标按钮（扫码登录 / 忘记密码） ---- */
+.ym-alts{margin-top:18px}
+.ym-or{display:flex;align-items:center;gap:12px;color:var(--muted,#777b86);font-size:12px;margin-bottom:12px}
+.ym-or::before,.ym-or::after{content:"";flex:1;height:1px;background:var(--line,#e7e8ec)}
+.ym-alt-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.login-card .ym-alt{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 12px;border:1px solid var(--line,#e7e8ec);border-radius:12px;background:var(--accent-soft,#fff0f2);color:var(--ink,#252832);font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:border-color .15s,background .15s,transform .15s}
+html[data-theme=dark] .login-card .ym-alt{background:#1f2430}
+.login-card .ym-alt .ym-ai{display:grid;place-items:center;color:var(--accent,#e95164)}
+.login-card .ym-alt:hover{border-color:var(--accent,#e95164);transform:translateY(-1px)}
+.login-card .ym-alt:focus-visible{outline:3px solid #e951642e;outline-offset:2px}
+@media(max-width:380px){.ym-alt-row{grid-template-columns:1fr}}
+
+/* ---- 毛玻璃按钮（登录页的“扫码登录 / 忘记密码”）：半透明 + 背景模糊 + 顶部高光 + 柔和阴影，不再是扁平的实色块 ---- */
+.login-card .ym-alt{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.78),rgba(255,255,255,.38));border:1px solid rgba(233,81,100,.22);-webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(233,81,100,.08),0 6px 18px rgba(31,34,43,.10);color:var(--ink,#252832)}
+.login-card .ym-alt::before{content:"";position:absolute;inset:0 0 55% 0;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none;border-radius:inherit}
+.login-card .ym-alt:hover{background:linear-gradient(145deg,rgba(255,255,255,.9),rgba(255,235,239,.55));border-color:rgba(233,81,100,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,1),0 10px 26px rgba(233,81,100,.20)}
+.login-card .ym-alt:active{transform:translateY(0);box-shadow:inset 0 2px 6px rgba(31,34,43,.12)}
+html[data-theme=dark] .login-card .ym-alt{background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 22px rgba(0,0,0,.35);color:#f1f2f6}
+html[data-theme=dark] .login-card .ym-alt::before{background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0))}
+html[data-theme=dark] .login-card .ym-alt:hover{background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(233,81,100,.16));border-color:rgba(233,81,100,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 10px 28px rgba(233,81,100,.25)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.login-card .ym-alt{background:rgba(255,240,242,.95)}html[data-theme=dark] .login-card .ym-alt{background:#262a36}}
+
+/* ---- 登录页整体统一成毛玻璃：背景有柔和的色块，登录卡片 / 输入框 / 主按钮 / 次按钮都是同一种半透明磨砂质感 ---- */
+.login-shell{background:radial-gradient(55% 45% at 12% 10%,rgba(255,170,185,.55),transparent 70%),radial-gradient(50% 45% at 92% 88%,rgba(160,175,255,.5),transparent 70%),radial-gradient(40% 35% at 80% 8%,rgba(255,225,170,.4),transparent 70%),#f4f5f9}
+html[data-theme=dark] .login-shell{background:radial-gradient(55% 45% at 12% 10%,rgba(233,81,100,.28),transparent 70%),radial-gradient(50% 45% at 92% 88%,rgba(100,110,230,.3),transparent 70%),radial-gradient(40% 35% at 80% 8%,rgba(140,90,200,.22),transparent 70%),#0e1016}
+.login-card{background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.75);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 24px 70px rgba(40,44,70,.18)}
+html[data-theme=dark] .login-card{background:rgba(24,27,37,.58);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 24px 70px rgba(0,0,0,.5)}
+.login-card .field input{background:rgba(255,255,255,.55);border:1px solid rgba(120,125,150,.25);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+html[data-theme=dark] .login-card .field input{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:#eceef6}
+.login-card .field input:focus{border-color:rgba(233,81,100,.6);box-shadow:0 0 0 3px rgba(233,81,100,.18)}
+.login-card .primary{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.35);background:linear-gradient(145deg,#f27384,#e95164 55%,#d63d52);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 12px 26px rgba(233,81,100,.38);color:#fff;text-shadow:0 1px 2px rgba(120,20,35,.35)}
+.login-card .primary::before{content:"";position:absolute;inset:0 0 52% 0;background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,0));pointer-events:none}
+.login-card .primary:hover:not(:disabled){background:linear-gradient(145deg,#f58392,#ee5a6d 55%,#dc4558);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 16px 32px rgba(233,81,100,.46)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.login-card{background:rgba(255,255,255,.96)}html[data-theme=dark] .login-card{background:#171a23}}
+
+/* ---- 主页（聊天界面）毛玻璃：背景有柔和色块 / 壁纸，侧栏、顶栏、输入框、气泡、建议卡都是半透明磨砂；导航项悬停 / 按下 / 当前选中都会高亮 ---- */
+body[data-page="app"] .app{background:radial-gradient(50% 40% at 8% 6%,rgba(255,170,185,.40),transparent 70%),radial-gradient(45% 40% at 94% 92%,rgba(160,175,255,.38),transparent 70%),radial-gradient(35% 30% at 85% 6%,rgba(255,225,170,.30),transparent 70%),#f4f5f9}
+html[data-theme=dark] body[data-page="app"] .app{background:radial-gradient(50% 40% at 8% 6%,rgba(233,81,100,.20),transparent 70%),radial-gradient(45% 40% at 94% 92%,rgba(100,110,230,.22),transparent 70%),radial-gradient(35% 30% at 85% 6%,rgba(140,90,200,.16),transparent 70%),#0e1016}
+body[data-page="app"] .sidebar{background:rgba(21,23,32,.74);-webkit-backdrop-filter:blur(24px) saturate(170%);backdrop-filter:blur(24px) saturate(170%);border-right:1px solid rgba(255,255,255,.07)}
+body[data-page="app"] .topbar{background:rgba(255,255,255,.42);-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%);border-bottom:1px solid rgba(255,255,255,.55)}
+html[data-theme=dark] body[data-page="app"] .topbar{background:rgba(15,17,23,.42);border-bottom-color:rgba(255,255,255,.08)}
+body[data-page="app"] .composer{background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.75);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 14px 40px rgba(40,44,70,.14)}
+html[data-theme=dark] body[data-page="app"] .composer{background:rgba(24,27,37,.6);border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 14px 40px rgba(0,0,0,.4)}
+body[data-page="app"] .message.assistant .bubble,body[data-page="app"] .suggestion,body[data-page="app"] .pill,body[data-page="app"] .icon-button{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);-webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%)}
+html[data-theme=dark] body[data-page="app"] .message.assistant .bubble,html[data-theme=dark] body[data-page="app"] .suggestion,html[data-theme=dark] body[data-page="app"] .pill,html[data-theme=dark] body[data-page="app"] .icon-button{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
+body[data-page="app"] .home-hero .suggestion{background:transparent;border-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
+/* 导航项：悬停 = 淡高亮；按下 = 更亮；当前 / 展开中 = 左侧红色指示条 + 玻璃底 */
+.side-nav{display:flex;flex-direction:column;gap:2px;margin:4px 0 6px}
+.side-nav>button,.side-nav>a,.chat,.sb-ws-row,.sb-run{position:relative;transition:background .15s,color .15s,box-shadow .15s}
+.side-nav>button:hover,.side-nav>a:hover,.chat:hover,.sb-ws-row:hover,.sb-run:hover{background:rgba(255,255,255,.1)!important;color:#fff!important}
+.side-nav>button:active,.side-nav>a:active,.chat:active,.sb-ws-row:active,.sb-run:active{background:rgba(255,255,255,.18)!important}
+.side-nav>button:focus-visible,.side-nav>a:focus-visible,.chat:focus-visible,.sb-ws-row:focus-visible{outline:2px solid rgba(233,81,100,.7);outline-offset:-2px}
+.side-nav>.active,.side-nav>button[aria-pressed=true],.chat.active,.sb-ws-row.open{background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(233,81,100,.16))!important;color:#fff!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.side-nav>.active::before,.side-nav>button[aria-pressed=true]::before,.chat.active::before,.sb-ws-row.open::before{content:"";position:absolute;left:0;top:22%;bottom:22%;width:3px;border-radius:3px;background:var(--accent,#e95164)}
+
+/* ---- 主页导航项的三种状态（直接对 .side-item / .new / .chat / .sb-ws-row 生效，不被别处的样式盖掉）：悬停 = 亮一档；点击 = 再亮一档并轻微下沉；当前页面 = 玻璃底 + 左侧红色竖条 + 加粗 ---- */
+body[data-page="app"] .sidebar .side-item,body[data-page="app"] .sidebar .new,body[data-page="app"] .sidebar .chat,body[data-page="app"] .sidebar .sb-ws-row{position:relative;transition:background .15s,color .15s,box-shadow .15s,transform .1s}
+body[data-page="app"] .sidebar .side-item:hover,body[data-page="app"] .sidebar .new:hover,body[data-page="app"] .sidebar .chat:hover,body[data-page="app"] .sidebar .sb-ws-row:hover{background:rgba(255,255,255,.14)!important;color:#fff!important}
+body[data-page="app"] .sidebar .side-item:active,body[data-page="app"] .sidebar .new:active,body[data-page="app"] .sidebar .chat:active,body[data-page="app"] .sidebar .sb-ws-row:active,body[data-page="app"] .sidebar .side-item.active{background:rgba(255,255,255,.24)!important;color:#fff!important;transform:scale(.985)}
+body[data-page="app"] .sidebar .side-item.current,body[data-page="app"] .sidebar .side-item[aria-current=page],body[data-page="app"] .sidebar .new.current,body[data-page="app"] .sidebar .chat.active,body[data-page="app"] .sidebar .sb-ws-row.current{background:linear-gradient(135deg,rgba(255,255,255,.20),rgba(233,81,100,.20))!important;color:#fff!important;font-weight:650;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 14px rgba(0,0,0,.18)}
+body[data-page="app"] .sidebar .side-item.current::before,body[data-page="app"] .sidebar .side-item[aria-current=page]::before,body[data-page="app"] .sidebar .new.current::before,body[data-page="app"] .sidebar .chat.active::before,body[data-page="app"] .sidebar .sb-ws-row.current::before{content:"";position:absolute;left:0;top:20%;bottom:20%;width:3px;border-radius:3px;background:var(--accent,#e95164)}
+body[data-page="app"] .sidebar .side-item:focus-visible,body[data-page="app"] .sidebar .new:focus-visible,body[data-page="app"] .sidebar .chat:focus-visible{outline:2px solid rgba(233,81,100,.75);outline-offset:-2px}
+
+/* ---- 多智能体协作的“任务”输入框：原来没套任何样式，缩成一小格带滚动条；现在整行宽、4 行高、可拖大，圆角磨砂 ---- */
+.ws-task{display:block;width:100%;box-sizing:border-box;min-height:112px;padding:12px 14px;margin:10px 0;border:1px solid var(--line,#e7e8ec);border-radius:12px;background:rgba(255,255,255,.55);color:inherit;font:inherit;line-height:1.65;resize:vertical;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+html[data-theme=dark] .ws-task{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
+.ws-task:focus{outline:none;border-color:rgba(233,81,100,.6);box-shadow:0 0 0 3px rgba(233,81,100,.18)}
+.ws-task::placeholder{color:var(--muted,#777b86)}
+
+/* ---- 首页里的市场面板：盖在主区域上（顶栏下面），侧栏保持可用；毛玻璃底 ---- */
+.main{position:relative}
+.home-panel{position:absolute;inset:58px 0 0 0;z-index:15;display:flex;flex-direction:column;gap:6px;padding:18px 26px 28px;overflow:auto;background:rgba(244,245,249,.82);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%)}
+html[data-theme=dark] .home-panel{background:rgba(14,16,22,.82)}
+.home-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.home-panel-head h2{margin:0;font-size:20px}
+.home-panel .team-desc{margin:0 0 6px;color:var(--muted,#777b86);font-size:13px}
+.home-panel-body{background:none;border:0;box-shadow:none;padding:0;min-height:0}
+@media(max-width:760px){.home-panel{inset:52px 0 0 0;padding:14px 14px 24px}}
+
+/* ---- 首页上层的“智能体 / 设置”面板：更宽，毛玻璃底 ---- */
+.modal-backdrop:not(.team-page) .team-modal{width:min(1100px,100%);max-height:92vh;-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%)}
+html[data-theme=dark] .modal-backdrop:not(.team-page) .team-modal{background:rgba(23,26,35,.86)}
+@media(max-width:760px){.modal-backdrop:not(.team-page) .team-modal{width:100%;max-height:100dvh;height:100dvh;border-radius:0}}
+
+/* 首页面板的外层容器本身不是卡片（里面的 .team-main 才是）：深色主题的 .team-main 卡片样式优先级更高，会在里面再套一层底色，看起来像多了一层蒙版 */
+html .home-panel .home-panel-body,html[data-theme=dark] .home-panel .home-panel-body{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;min-height:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+
+/* ---- 侧栏收起（窄条）时，工作区区块只留文件夹图标：名称、展开的任务、设置齿轮、新建按钮都隐藏（原来挤成一团竖排文字） ---- */
+.app.side-collapsed .sb-ws-head .label,.app.side-collapsed .sb-ws-add,.app.side-collapsed .sb-ws-name,.app.side-collapsed .sb-caret,.app.side-collapsed .sb-gear,.app.side-collapsed .sb-runs,.app.side-collapsed .sb-ws-empty{display:none!important}
+.app.side-collapsed .sb-ws-head{justify-content:center;padding:0}
+.app.side-collapsed .sb-ws-list{align-items:center;max-height:30vh}
+.app.side-collapsed .sb-ws-row{justify-content:center;width:44px;height:44px;min-height:44px;padding:0;gap:0}
+/* 收起的侧栏里，“新建群聊”按钮只显示一个群组图标，不再是一个空方块；群聊列表的提示文字隐藏 */
+.app.side-collapsed .group-new{font-size:0!important;justify-content:center}.app.side-collapsed .group-new::before{content:"👥";font-size:18px}
+.app.side-collapsed #groupList{display:none}
+
+.crumb-link{flex:none;margin-left:12px;padding:3px 10px;border:1px solid var(--line,#e7e8ec);border-radius:999px;background:transparent;color:var(--muted,#777b86);font:inherit;font-size:12px;cursor:pointer;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}.crumb-link:hover{color:var(--accent,#e95164);border-color:var(--accent,#e95164)}
+
+.chat .del.edit{opacity:0;font-size:13px}.chat:hover .del.edit,.chat.active .del.edit,.chat .del.edit:focus-visible{opacity:.8}@media(hover:none){.chat .del.edit{opacity:.7}}
+.sb-fold-head{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;border-radius:8px}.sb-fold-head:hover{color:#fff}.sb-fold-caret{width:12px;font-size:11px;opacity:.8}.sb-fold-count{margin-left:auto;margin-right:8px;font-size:11px;padding:0 7px;border-radius:999px;background:rgba(255,255,255,.12)}.sb-fold-count:empty{display:none}
+.sb-folded{display:none!important}
+#groupList{max-height:22vh!important}
+
+/* 设了壁纸时，让壁纸透出来：主页的渐变底色不再盖住壁纸层 */
+body.has-wallpaper[data-page="app"] .app,html[data-theme=dark] body.has-wallpaper[data-page="app"] .app{background:transparent!important}
+html[data-theme=dark] body.has-wallpaper #prompt{background:transparent!important}
+
+.ym-qr-back{position:fixed;inset:0;z-index:2147483100;background:#10121a99;display:grid;place-items:center;padding:16px}.ym-qr-box{width:min(340px,100%);background:var(--ym-card,#fff);color:var(--ink,#252832);border:1px solid var(--line,#e7e8ec);border-radius:16px;padding:18px;display:grid;gap:10px;justify-items:center;box-shadow:0 20px 60px #0006}.ym-qr-title{font-weight:650;font-size:15px;text-align:center;overflow-wrap:anywhere}.ym-qr-img{width:220px;height:220px;background:#fff;border-radius:12px;padding:8px;box-sizing:content-box}.ym-qr-tip{font-size:12px;color:var(--muted,#777b86);line-height:1.6}.ym-qr-url{width:100%;box-sizing:border-box;height:34px;border:1px solid var(--line,#e7e8ec);border-radius:8px;background:transparent;color:inherit;padding:0 8px;font-size:12px}.ym-qr-close{min-height:38px;padding:0 22px;border-radius:10px;border:1px solid var(--line,#e7e8ec);background:transparent;color:inherit;cursor:pointer}
+
+/* 自定义下拉菜单（select.js）：所有原生 select 统一成这个样子，深浅色都跟随主题 */
+select.ymsel-native{display:none!important}
+.ymsel{position:relative;display:inline-block;max-width:100%;min-width:0;vertical-align:middle}
+.ymsel-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:36px;margin:0;padding:6px 10px 6px 12px;border:1px solid var(--line,#e7e8ec);border-radius:10px;background:var(--ym-card,#fff);color:var(--ink,#252832);font:inherit;font-size:14px;text-align:left;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.ymsel-btn:hover:not(:disabled){border-color:var(--accent,#e95164)}
+.ymsel-btn:focus-visible,.ymsel-btn[aria-expanded=true]{outline:none;border-color:var(--accent,#e95164);box-shadow:0 0 0 3px var(--accent-soft,#fde7ea)}
+.ymsel-btn:disabled{opacity:.55;cursor:not-allowed}
+.ymsel-text{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ymsel-text.ph{color:var(--muted,#777b86)}
+.ymsel-caret{flex:none;font-size:12px;color:var(--muted,#777b86);transition:transform .15s}
+.ymsel-btn[aria-expanded=true] .ymsel-caret{transform:rotate(180deg)}
+.ymsel-menu{position:fixed;z-index:2147483200;overflow:auto;padding:5px;border:1px solid var(--line,#e7e8ec);border-radius:12px;background:var(--ym-card,#fff);color:var(--ink,#252832);box-shadow:0 14px 40px #0005;font-size:14px}
+.ymsel-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;overflow-wrap:anywhere}
+.ymsel-item i{font-style:normal;color:var(--accent,#e95164);font-weight:700}
+.ymsel-item.hot{background:var(--accent-soft,#fde7ea)}
+.ymsel-item.sel{font-weight:650}
+.ymsel-item[aria-disabled=true]{opacity:.45;cursor:not-allowed}
+.ymsel-group{padding:8px 10px 4px;font-size:12px;color:var(--muted,#777b86)}
+@media(max-width:640px){.ymsel-btn{font-size:16px;min-height:40px}.ymsel-item{padding:11px 12px;font-size:16px}}
+
+/* 卡片：之前 .team-card 没有样式，导致套餐、安全、邮箱页的卡片都是“裸”的 */
+.team-card{border:1px solid var(--line,#e7e8ec);border-radius:14px;padding:14px 16px;margin:12px 0;background:var(--ym-card,transparent);display:flex;flex-direction:column;gap:6px;min-width:0}
+.team-card>h4{margin:0 0 2px;font-size:15px}
+.team-card>.team-note,.team-card>p{margin:0}
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:12px 0;align-items:stretch}
+.plan-grid .team-card{margin:0}
+.plan-card.on{border-color:var(--accent,#e95164);box-shadow:0 0 0 2px var(--accent-soft,#fde7ea)}
+.plan-card .plan-feats{display:grid;gap:3px;font-size:13px;flex:1}
+.plan-card button{margin-top:8px;align-self:flex-start}
+.price-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.price-name{flex:1;min-width:180px;word-break:break-all}
+/* 表单里的说明文字 / 宽输入框占满整行（之前被挤在左边一列里，右边一片空白） */
+.team-main .team-form>.team-note,.team-main .team-form>input.wide,.team-main .team-form>textarea{grid-column:1/-1;max-width:none}
+.team-main .team-form>.team-note>div{margin-top:6px;line-height:1.7}
+.team-main .team-form>.team-note>div:first-child{margin-top:0}
+
+/* 输入框下面的 模型 / 引擎 / 智能体 选择器：名字太长就用省略号，不撑开一整行 */
+.composer-picks .ymsel{flex:0 1 auto;min-width:0;max-width:48%}
+.composer-picks .ymsel-btn{min-height:30px;padding:3px 8px;font-size:12px;gap:4px}
+.composer-picks .ymsel-text{max-width:30vw}
+@media(max-width:640px){.composer-picks .ymsel{max-width:46%}.composer-picks .ymsel-btn{font-size:12px;min-height:32px}.composer-picks .ymsel-text{max-width:34vw}}
+/* 价格页（手机）：第一行模型名，第二行 货币 + 输入 + 输出 */
+.price-row .ymsel{flex:0 0 auto;min-width:64px}
+.price-row input{min-width:0;width:96px}
+@media(max-width:640px){.price-name{flex:1 0 100%;min-width:0}.price-row{gap:6px}.price-row .ymsel{max-width:30%}.price-row input{flex:1 1 70px;width:auto}}
