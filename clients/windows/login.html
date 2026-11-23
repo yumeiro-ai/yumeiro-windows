@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>Yumeiro 登录</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src file: data:">
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(1200px 600px at 20% 0%,#2a2350 0%,#12131a 55%);color:#e8e9ee;font:15px/1.6 system-ui,"Microsoft YaHei",sans-serif}
+.card{width:min(420px,92vw);padding:30px 30px 24px;border-radius:20px;background:#1b1d27ee;border:1px solid #2c2f3d;box-shadow:0 20px 70px #000a}
+.logo{display:flex;align-items:center;gap:12px;margin-bottom:6px}.logo img{width:46px;height:46px;border-radius:14px}.logo b{font-size:22px}.logo span{display:block;color:#9a9db0;font-size:12px}
+label{display:block;margin:14px 0 4px;font-size:13px;color:#b9bccd}
+input[type=text],input[type=password],input[type=email]{width:100%;padding:11px 13px;border-radius:11px;border:1px solid #343848;background:#12131a;color:inherit;font:inherit;outline:none}
+input:focus{border-color:#7955c7;box-shadow:0 0 0 3px #7955c733}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.chk{display:flex;align-items:flex-start;gap:8px;margin:14px 0 2px;font-size:12.5px;color:#9a9db0}.chk input{margin-top:3px}
+button{width:100%;margin-top:18px;padding:12px;border:0;border-radius:12px;background:#7955c7;color:#fff;font:inherit;font-weight:600;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+.err{min-height:22px;margin-top:12px;color:#ff8a8a;font-size:13px;word-break:break-all}.ok{color:#8be0a6}
+.alt{display:flex;gap:10px;margin-top:12px}.alt button{position:relative;overflow:hidden;margin:0;background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 22px rgba(0,0,0,.35);color:#eceef6;font-weight:600;padding:11px;border-radius:13px;transition:border-color .15s,background .15s,transform .15s}.alt button::before{content:"";position:absolute;inset:0 0 55% 0;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0));pointer-events:none}.alt button:hover{background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(121,85,199,.28));border-color:rgba(160,130,230,.7);transform:translateY(-1px)}
+.panel{margin-top:14px;padding:14px;border:1px solid #343848;border-radius:14px;background:#12131a;text-align:center}.panel[hidden]{display:none}
+.panel .qr{display:inline-block;background:#fff;padding:8px;border-radius:12px;width:200px}.panel .qr img{display:block;width:100%}
+.panel .code{font:700 34px/1.2 ui-monospace,Consolas,monospace;letter-spacing:6px;color:#ff8a9a;margin:8px 0}.panel .sub{color:#9a9db0;font-size:12.5px;margin-top:6px}
+.foot{margin-top:10px;color:#6f7388;font-size:12px;text-align:center}
+/* 毛玻璃：背景色块 + 半透明磨砂卡片 / 输入框 / 主按钮，和网页登录页一致 */
+body{background:radial-gradient(55% 45% at 12% 10%,rgba(233,81,100,.30),transparent 70%),radial-gradient(50% 45% at 92% 88%,rgba(100,110,230,.34),transparent 70%),radial-gradient(40% 35% at 80% 8%,rgba(140,90,200,.26),transparent 70%),#0e1016}
+.card{background:rgba(24,27,37,.58);border:1px solid rgba(255,255,255,.10);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 24px 70px rgba(0,0,0,.5)}
+input[type=text],input[type=password],input[type=email]{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#eceef6}
+input:focus{border-color:rgba(233,81,100,.6);box-shadow:0 0 0 3px rgba(233,81,100,.18)}
+#go{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.35);background:linear-gradient(145deg,#f27384,#e95164 55%,#d63d52);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 12px 26px rgba(233,81,100,.38);text-shadow:0 1px 2px rgba(120,20,35,.35);transition:box-shadow .15s,background .15s}
+#go::before{content:"";position:absolute;inset:0 0 52% 0;background:linear-gradient(180deg,rgba(255,255,255,.38),rgba(255,255,255,0));pointer-events:none}
+#go:hover:not(:disabled){background:linear-gradient(145deg,#f58392,#ee5a6d 55%,#dc4558);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 16px 32px rgba(233,81,100,.46)}
+.alt button:hover{border-color:rgba(233,81,100,.55);background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(233,81,100,.18))}
+.panel{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+</style></head>
+<body><form class="card" id="f" autocomplete="on">
+<div class="logo"><img src="build/icon.png" alt=""><div><b>Yumeiro 梦色</b><span>连接到你自己部署的服务器</span></div></div>
+<label for="server">服务器地址（IP 或域名，端口可选）</label>
+<input id="server" type="text" placeholder="例如 192.168.1.8:8787 或 chat.example.com" autofocus spellcheck="false">
+<label for="email">账号（邮箱）</label>
+<input id="email" type="email" placeholder="you@example.com" autocomplete="username">
+<label for="password">密码</label>
+<input id="password" type="password" placeholder="密码" autocomplete="current-password">
+<label class="chk" for="ign"><input id="ign" type="checkbox"><span>我的服务器用自签名证书（忽略证书错误，不安全）。只对这个服务器生效；能的话建议配正式证书。</span></label>
+<button id="go" type="submit">登录</button>
+<div class="alt"><button id="qrBtn" type="button">📱 扫码登录</button><button id="forgotBtn" type="button">🔑 忘记密码？</button></div>
+<div class="panel" id="panel" hidden></div>
+<div class="err" id="err"></div>
+<div class="foot">地址不写 http:// 或 https:// 也行，会自动识别</div>
+</form>
+<script>
+const $ = id => document.getElementById(id);
+(async () => {
+  const d = await window.yumeiroApp.loginDefaults();
+  $('server').value = d.server || ''; $('email').value = d.email || ''; $('ign').checked = Boolean(d.ignoreCert);
+  (d.server && d.email ? $('password') : d.server ? $('email') : $('server')).focus();
+})();
+$('f').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = $('err'), go = $('go'); err.className = 'err'; err.textContent = '';
+  if (!$('server').value.trim()) { err.textContent = '请填写服务器地址'; return; }
+  if (!$('email').value.trim() || !$('password').value) { err.textContent = '请填写账号和密码'; return; }
+  go.disabled = true; go.textContent = '正在连接…';
+  try {
+    const r = await window.yumeiroApp.login({ server: $('server').value, email: $('email').value, password: $('password').value, ignoreCert: $('ign').checked });
+    if (!r.ok) { err.textContent = r.error || '登录失败'; if (r.needIgnore) $('ign').focus(); }
+    else { err.className = 'err ok'; err.textContent = r.note || '登录成功，正在进入…'; }
+  } catch (x) { err.textContent = '出错了：' + (x && x.message || x); }
+  go.disabled = false; go.textContent = '登录';
+});
+
+// ---- 扫码登录 / 忘记密码（手机授权）：和网页登录页同一套流程；成功后主进程会自动进入主界面 ----
+let polling = 0;
+const panel = $('panel'), stopPoll = () => { clearInterval(polling); polling = 0; };
+const fmtLeft = end => { const s = Math.max(0, Math.round((end - Date.now()) / 1000)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const form = () => ({ server: $('server').value, email: $('email').value, ignoreCert: $('ign').checked });
+function note(text, cls) { const e = $('err'); e.className = 'err' + (cls ? ' ' + cls : ''); e.textContent = text; }
+async function runTicket(ticket, poll, render) {
+  stopPoll();
+  polling = setInterval(async () => {
+    const left = fmtLeft(ticket.expiresAt);
+    let r; try { r = await poll(ticket); } catch { return; }
+    if (r.status === 'done') { stopPoll(); note('已确认，正在进入…', 'ok'); }
+    else if (r.status === 'error') { stopPoll(); note(r.error || '登录失败'); }
+    else if (r.status === 'denied') { stopPoll(); render('denied'); }
+    else if (r.status === 'expired' || r.status === 'unknown' || left === '0:00') { stopPoll(); render('expired'); }
+    else render('wait', left);
+  }, 2000);
+}
+async function startQr() {
+  note(''); if (!$('server').value.trim()) { note('请先填写服务器地址'); return; }
+  panel.hidden = false; panel.textContent = '正在生成二维码…';
+  const r = await window.yumeiroApp.qrStart(form());
+  if (!r.ok) { panel.hidden = true; note(r.error || '生成失败'); return; }
+  const wrap = document.createElement('div'); wrap.className = 'qr'; const img = document.createElement('img'); img.alt = '扫码登录'; img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(r.svg); wrap.append(img);
+  const status = document.createElement('div'); status.className = 'sub'; status.textContent = '用已登录的手机扫描二维码，并在手机上点“确认”';
+  const again = document.createElement('button'); again.type = 'button'; again.textContent = '重新生成二维码'; again.hidden = true; again.addEventListener('click', startQr);
+  panel.replaceChildren(wrap, status, again);
+  runTicket(r, window.yumeiroApp.qrPoll, (state, left) => { again.hidden = state === 'wait'; status.textContent = state === 'wait' ? '等待手机确认…（还剩 ' + left + '）' : state === 'denied' ? '手机上拒绝了这次登录。' : '二维码已过期。'; });
+}
+async function startForgot() {
+  note(''); if (!$('server').value.trim()) { note('请先填写服务器地址'); return; }
+  if (!$('email').value.trim()) { note('请先在上面填写你的账号（邮箱）'); $('email').focus(); return; }
+  panel.hidden = false; panel.textContent = '正在发起…';
+  const r = await window.yumeiroApp.phoneStart(form());
+  if (!r.ok) { panel.hidden = true; note(r.error || '发起失败'); return; }
+  const code = document.createElement('div'); code.className = 'code'; code.textContent = r.code.slice(0, 3) + ' ' + r.code.slice(3);
+  const how = document.createElement('div'); how.className = 'sub'; how.textContent = '在已登录这个账号的手机上打开：设置 → 账号安全，输入上面的 6 位验证码并点“批准”，这里会自动登录。也可以请管理员在“团队成员”里帮你重置密码。';
+  const status = document.createElement('div'); status.className = 'sub';
+  const again = document.createElement('button'); again.type = 'button'; again.textContent = '重新发起'; again.hidden = true; again.addEventListener('click', startForgot);
+  panel.replaceChildren(code, how, status, again);
+  runTicket(r, window.yumeiroApp.phonePoll, (state, left) => { again.hidden = state === 'wait'; status.textContent = state === 'wait' ? '等待手机批准…（还剩 ' + left + '）' : state === 'denied' ? '手机上拒绝了这次请求。' : '验证码已过期。'; });
+}
+$('qrBtn').addEventListener('click', startQr);
+$('forgotBtn').addEventListener('click', startForgot);
+</script></body></html>

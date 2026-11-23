@@ -1,0 +1,206 @@
+name: Yumeiro clients build
+
+on:
+  pull_request:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'test/**'
+      - 'clients/**'
+      - 'scripts/**'
+      - '.github/workflows/clients-build.yml'
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: clients-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Server tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  windows:
+    name: Windows Electron
+    needs: test
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: clients/windows/package-lock.json
+      - name: Install Windows client dependencies
+        working-directory: clients/windows
+        run: npm ci
+      - name: Build Windows installer and portable package
+        working-directory: clients/windows
+        run: npm run build
+      - name: Stage Windows artifacts
+        shell: pwsh
+        run: |
+          $stage = Join-Path $env:RUNNER_TEMP 'yumeiro-windows'
+          New-Item -ItemType Directory -Force $stage | Out-Null
+          $files = Get-ChildItem clients/windows/dist -File | Where-Object { $_.Name -match '^Yumeiro-(Setup|Portable)-.+\.exe$' }
+          if ($files.Count -lt 2) { throw 'Windows 构建没有生成 Setup 和 Portable 安装包' }
+          $files | Copy-Item -Destination $stage
+          Get-ChildItem $stage -File | Get-FileHash -Algorithm SHA256 | ForEach-Object { '{0}  {1}' -f $_.Hash.ToLower(), $_.Path.Substring($stage.Length + 1) } | Set-Content (Join-Path $stage 'SHA256.txt')
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: clients-windows-${{ github.run_id }}
+          path: ${{ runner.temp }}/yumeiro-windows
+          if-no-files-found: warn
+          retention-days: 14
+
+  android:
+    name: Android Native debug APK
+    needs: test
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK platform
+        run: sdkmanager 'platforms;android-34' 'build-tools;34.0.0'
+      - name: Build Android Native APK
+        working-directory: clients/android-native
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon
+      - name: Stage Android artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/yumeiro-android"
+          mkdir -p "$stage"
+          cp clients/android-native/app/build/outputs/apk/debug/app-debug.apk "$stage/Yumeiro-android-debug.apk"
+          (cd "$stage" && sha256sum Yumeiro-android-debug.apk > SHA256.txt)
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: clients-android-${{ github.run_id }}
+          path: ${{ runner.temp }}/yumeiro-android
+          if-no-files-found: warn
+          retention-days: 14
+
+  apple:
+    name: Apple ${{ matrix.target }}
+    needs: test
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Yumeiro-iOS
+            destination: generic/platform=iOS Simulator
+            stage: yumeiro-ios
+          - target: Yumeiro-macOS
+            destination: platform=macOS
+            stage: yumeiro-macos
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        working-directory: clients/apple
+        run: xcodegen generate
+      - name: Build ${{ matrix.target }} without signing
+        working-directory: clients/apple
+        run: |
+          set -o pipefail
+          mkdir -p "$RUNNER_TEMP/${{ matrix.stage }}"
+          xcodebuild build \
+            -project Yumeiro.xcodeproj \
+            -scheme '${{ matrix.target }}' \
+            -destination '${{ matrix.destination }}' \
+            -configuration Debug \
+            -derivedDataPath "$RUNNER_TEMP/${{ matrix.stage }}/DerivedData" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' \
+            2>&1 | tee "$RUNNER_TEMP/${{ matrix.stage }}/build.log"
+      - name: Stage Apple artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/${{ matrix.stage }}"
+          app=$(find "$stage/DerivedData/Build/Products" -maxdepth 3 -name '*.app' -type d | head -1 || true)
+          if [ -n "$app" ]; then
+            ditto -c -k --sequesterRsrc --keepParent "$app" "$stage/${{ matrix.target }}-unsigned.zip"
+          fi
+          files=()
+          [ -f "$stage/${{ matrix.target }}-unsigned.zip" ] && files+=("${{ matrix.target }}-unsigned.zip")
+          files+=(build.log)
+          (cd "$stage" && shasum -a 256 "${files[@]}" > SHA256.txt)
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: clients-apple-${{ matrix.stage }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/${{ matrix.stage }}
+          if-no-files-found: warn
+          retention-days: 14
+
+  package:
+    name: Package manifest and checksums
+    if: always()
+    needs: [windows, android, apple]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: clients-*
+          path: release-artifacts
+          merge-multiple: false
+      - name: Build manifest and combined checksums
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          find release-artifacts -type f ! -name SHA256.txt -print0 | sort -z | xargs -0 -r sha256sum > release/SHA256.txt
+          node --input-type=module <<'NODE'
+          import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+          import path from 'node:path';
+          const root = 'release-artifacts';
+          const files = [];
+          function walk(dir) { for (const name of readdirSync(dir)) { const file = path.join(dir, name); const s = statSync(file); if (s.isDirectory()) walk(file); else if (name !== 'SHA256.txt') files.push(file); } }
+          walk(root);
+          const checksum = new Map(readFileSync('release/SHA256.txt', 'utf8').trim().split('\n').filter(Boolean).map(line => { const [hash, ...rest] = line.trim().split(/\s+/); return [rest.join(' '), hash]; }));
+          const artifacts = files.map(file => ({ file: file.replaceAll('\\', '/'), sha256: checksum.get(file) || null, signed: false }));
+          writeFileSync('release/release-manifest.json', JSON.stringify({ schemaVersion: 1, repository: process.env.GITHUB_REPOSITORY, commit: process.env.COMMIT_SHA, ref: process.env.REF_NAME, runId: process.env.RUN_ID, event: process.env.EVENT_NAME, generatedAt: new Date().toISOString(), artifacts }, null, 2) + '\n');
+          NODE
+          sha256sum release/release-manifest.json >> release/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: yumeiro-release-${{ github.run_id }}
+          path: release
+          retention-days: 30
+      - name: Create GitHub Release for version tag
+        if: startsWith(github.ref, 'refs/tags/') && needs.windows.result == 'success' && needs.android.result == 'success' && needs.apple.result == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" release/* --generate-notes --title "Yumeiro $GITHUB_REF_NAME"

@@ -1,0 +1,13 @@
+# 自签名 HTTPS（IP 访问，无域名）。由 scripts/selfsigned-https.sh 写入 .env 的 COMPOSE_FILE，一般不需要手工使用。
+services:
+  caddy:
+    image: ${CADDY_IMAGE:-caddy:2-alpine}
+    restart: unless-stopped
+    depends_on:
+      yumeiro:
+        condition: service_healthy
+    ports:
+      - "${HTTPS_PORT:-3005}:443"
+    volumes:
+      - ./Caddyfile.ip:/etc/caddy/Caddyfile:ro
+      - ${SECRETS_DIR:-./secrets}/tls:/certs:ro

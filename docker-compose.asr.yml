@@ -1,0 +1,18 @@
+# 可选：免费的本地语音识别服务（speaches / faster-whisper，OpenAI 兼容）。
+# 用法：docker compose -f docker-compose.yml -f docker-compose.asr.yml up -d
+# 然后在“管理设置 → AI 接入”添加服务商：地址 http://asr:8000/v1，密钥随便填；
+# 再到“语音识别”选预设“自建 · speaches”。首次需下载模型（见下），之后无需联网。
+# 注意：镜像名/接口随上游更新可能变化，本文件未经实机验证；CPU 推理，2 核 4G 请用 small 或 base。
+services:
+  asr:
+    image: ghcr.io/speaches-ai/speaches:latest-cpu
+    restart: unless-stopped
+    volumes:
+      - asr_models:/home/ubuntu/.cache/huggingface/hub
+    mem_limit: 1536m
+    # 不映射端口：只给同一网络里的 yumeiro 使用
+volumes:
+  asr_models:
+# 下载模型（容器起来后执行一次）：
+#   docker compose -f docker-compose.yml -f docker-compose.asr.yml exec asr \
+#     curl -X POST http://localhost:8000/v1/models/Systran/faster-whisper-small

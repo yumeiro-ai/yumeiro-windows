@@ -1,0 +1,23 @@
+# 内置 PostgreSQL（不对外暴露端口，只有 yumeiro 服务能通过内部网络访问）
+services:
+  postgres:
+    image: ${POSTGRES_IMAGE:-postgres:16-alpine}
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${PGUSER:-yumeiro}
+      POSTGRES_DB: ${PGDATABASE:-yumeiro}
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets: [db_password]
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  yumeiro:
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  pg_data:

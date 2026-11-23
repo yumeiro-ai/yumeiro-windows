@@ -1,0 +1,14 @@
+{
+  "appId": "com.yumeiro.app",
+  "appName": "Yumeiro",
+  "webDir": "www",
+  "backgroundColor": "#12131a",
+  "server": {
+    "androidScheme": "http",
+    "allowNavigation": ["*"]
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#12131a"
+  }
+}

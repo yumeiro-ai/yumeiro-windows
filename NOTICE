@@ -1,0 +1,40 @@
+Yumeiro
+Copyright 2026 BYL
+
+Powered by Yumeiro
+使用 Cindy、Dash黄一孟 的项目进行制作 · 制作者：BYL
+以 Apache License 2.0 开源；使用、修改、分发请保留署名与许可证
+
+本项目以 Apache License, Version 2.0 授权（见 LICENSE）。
+使用、修改、分发（包括商用）时，请保留本 NOTICE 文件、LICENSE，以及界面“关于”页和登录页里的署名；
+改过的文件请标明“已修改”。
+
+====================================================================
+第三方声明 / Third-party notices
+====================================================================
+
+与 Cindy 的关系
+  本项目依靠 Cindy 项目（https://github.com/makecindy/cindy，Apache License 2.0）所提供的客户端、
+  账号体系和模型网关，并按其公开的协议自行实现了对接代码（见 platform-models.mjs 等）。
+  经与 Cindy 各仓库逐文件、逐行比对，本项目没有复制 Cindy 的源码、文档或图片。
+  - desktop/ 在构建容器时，从 Cindy 官方发布页下载 Cindy 桌面端，不随本项目分发；
+  - scripts/fetch-wallpapers.mjs 在运行时从 Cindy 官方仓库下载壁纸到你自己的服务器，不随本项目分发。
+    这些壁纸（Cindy 角色插画）的授权范围没有单独写明，公开或商用前请先向 Cindy 官方确认；
+  - Cindy 的名称、商标不随 Apache License 授予；本项目只用它们说明来源，不代表 Cindy 官方出品或背书；
+  - 调用 Cindy 的在线服务（账号登录、模型接入）须遵守 Cindy 官方的服务条款。
+    “团队共享 Cindy 账号”功能默认关闭：主账号须在“绑定 Cindy 账号”页打开 Cindy 官网阅读用户协议，
+    等满 120 秒并明确确认“自行承担后果”后才能开启（服务器记录确认人和时间；也可用环境变量 CINDY_ALLOW_SHARED_ACCOUNTS=1 开启）。
+    请先确认服务条款是否允许多人共用一个订阅额度。
+
+本项目自带的美术素材
+  软件图标、吉祥物与桌宠表情图（public/mascot.png、public/icon-*.png、public/pet/、clients/windows/pet/、
+  brand/social-preview.png 等）以及内置壁纸（public/seed/wallpapers/）均由 AI 图像生成工具生成，
+  由制作者 BYL 提供。AI 生成内容的版权归属在不同国家和地区的规定并不一致；
+  公开发布或商用前，请自行确认所用 AI 生成平台的使用条款和所在地法规。
+
+其它第三方组件
+  Gradle Wrapper（clients/android-native/gradlew、gradlew.bat）：
+    Copyright the original authors, licensed under the Apache License, Version 2.0。
+  Android Jetpack / Compose、kotlinx.coroutines：Apache License 2.0。
+  pg、undici、unpdf、Electron、electron-builder、Capacitor：MIT License。
+  其它 npm / Gradle / Swift 依赖各自遵循它们自己的许可证。

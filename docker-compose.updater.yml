@@ -1,0 +1,29 @@
+# 网页更新（可选）：管理员在网页上传官方签名的发布包，由本更新器备份、替换程序文件并重建 yumeiro 服务。
+# 启用：在安装目录运行 ./install.sh enable-updater（会生成 secrets/updater_token，并把本文件加进 .env 的 COMPOSE_FILE）。
+# 安全说明：更新器要访问宿主机的 docker.sock，相当于宿主机 root 权限，所以
+#   · 它不对外发布任何端口，只有 yumeiro 容器能通过内部网络用令牌访问；
+#   · 只接受带官方签名、且和签名清单逐个文件一致的发布包（公钥内置在程序里）；
+#   · yumeiro 容器本身没有挂载 docker.sock。
+services:
+  yumeiro:
+    environment:
+      UPDATER_URL: http://updater:8790
+      UPDATER_TOKEN_FILE: /run/secrets/updater_token
+    secrets: [updater_token]
+  updater:
+    build: ./docker/updater
+    restart: unless-stopped
+    working_dir: ${UPDATER_PROJECT_DIR:?请用 ./install.sh enable-updater 启用}
+    command: ["node", "docker/updater/updater.mjs"]
+    environment:
+      PROJECT_DIR: ${UPDATER_PROJECT_DIR}
+      DATA_DIR: /data
+      UPDATER_TOKEN_FILE: /run/secrets/updater_token
+    secrets: [updater_token]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${UPDATER_PROJECT_DIR}:${UPDATER_PROJECT_DIR}
+      - yumeiro_data:/data
+secrets:
+  updater_token:
+    file: ${SECRETS_DIR:-./secrets}/updater_token

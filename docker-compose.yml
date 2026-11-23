@@ -1,0 +1,44 @@
+# 基础服务：Yumeiro 应用。数据库与 HTTPS 入口由叠加文件提供，安装脚本会在 .env 里设置 COMPOSE_FILE 选择组合：
+#   docker-compose.db.yml     内置 PostgreSQL 容器（使用外部库/华为云 RDS 时不叠加）
+#   docker-compose.caddy.yml  Caddy 自动 HTTPS（域名模式）
+# 请通过 ./install.sh 生成 .env 与 secrets/，不要手工拼写。
+services:
+  yumeiro:
+    build:
+      context: .
+      args:
+        NODE_IMAGE: ${NODE_IMAGE:-node:22-alpine}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: 8787
+      DATA_DIR: /app/data
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      TRUST_PROXY: ${TRUST_PROXY:-true}
+      STORE_ENCRYPTION_KEY_FILE: /run/secrets/store_encryption_key
+      MODEL_API_KEY_FILE: /run/secrets/model_api_key
+      ADMIN_PASSWORD_FILE: /run/secrets/admin_password
+      PGPASSWORD_FILE: /run/secrets/db_password
+    secrets: [store_encryption_key, model_api_key, admin_password, db_password]
+    volumes:
+      - yumeiro_data:/app/data
+    ports:
+      - "${APP_BIND:-0.0.0.0}:${APP_PORT:-8787}:8787"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8787/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+volumes:
+  yumeiro_data:
+secrets:
+  store_encryption_key:
+    file: ${SECRETS_DIR:-./secrets}/store_encryption_key
+  model_api_key:
+    file: ${SECRETS_DIR:-./secrets}/model_api_key
+  admin_password:
+    file: ${SECRETS_DIR:-./secrets}/admin_password
+  db_password:
+    file: ${SECRETS_DIR:-./secrets}/db_password

@@ -1,0 +1,4 @@
+{$YUMEIRO_DOMAIN} {
+  encode zstd gzip
+  reverse_proxy yumeiro:8787
+}
